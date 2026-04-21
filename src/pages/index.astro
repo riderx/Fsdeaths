@@ -14,6 +14,8 @@ import {
 	countries,
 	daysBetween,
 	defaultScenario,
+	fleetScopes,
+	getFleetScope,
 	institutionTrack,
 	methodology,
 	rankCountries,
@@ -31,6 +33,20 @@ const pendingMemberStates = countries.length - APPROVED_MEMBER_STATES;
 const initialLeader = initialRanking[0];
 const approvalInitial = (initialTotal / 365) * approvalWaitDays;
 const processInitial = (initialTotal / 365) * processDays;
+const initialScope = getFleetScope(defaultScenario.approvalScopeKey);
+const initialScopeComparisons = fleetScopes.map((scope) => {
+	const rows = rankCountries({
+		...defaultScenario,
+		approvalScopeKey: scope.key,
+	});
+
+	return {
+		...scope,
+		total: sumEstimatedLives(rows),
+	};
+});
+const initialLatestScopeTotal =
+	initialScopeComparisons.find((scope) => scope.key === "latest-only")?.total ?? 1;
 
 const formatWhole = new Intl.NumberFormat("en-US");
 const formatLives = new Intl.NumberFormat("en-US", {
@@ -83,7 +99,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					{formatLives.format(processInitial)}
 				</strong>
 				<p class="counter-wall__caption">
-					Approximate counter from October 2024 under the current slider values.
+					Approximate counter from October 2024 under the current slider values
+					and <span id="selected-scope-copy">{initialScope.label}</span>.
 				</p>
 				<div class="counter-wall__rail">
 					<div class="counter-tile">
@@ -174,14 +191,92 @@ const renderStatusClass = (row: CountryOpportunity) =>
 						</small>
 					</label>
 				</div>
+
+				<div class="control control--scope">
+					<div class="control__head">
+						<span>Approval scope</span>
+						<strong id="approval-scope-value">{initialScope.label}</strong>
+					</div>
+					<div class="scope-picker" role="radiogroup" aria-label="Approval scope">
+						{
+							fleetScopes.map((scope) => (
+								<button
+									type="button"
+									class:list={[
+										"scope-button",
+										scope.key === defaultScenario.approvalScopeKey && "is-active",
+									]}
+									data-scope-key={scope.key}
+									aria-pressed={scope.key === defaultScenario.approvalScopeKey
+										? "true"
+										: "false"}
+								>
+									<span>{scope.label}</span>
+									<small>{scope.coverageShare}% of Tesla fleet in scope</small>
+								</button>
+							))
+						}
+					</div>
+					<small>
+						Explicit scenario assumption. The point is to show how much bigger
+						the upside gets when approval reaches the broad HW3 and HW4 installed
+						base instead of a token slice of the newest cars.
+					</small>
+				</div>
 			</div>
 
 			<div class="formula">
 				<strong>Formula:</strong>
 				<code>
 					2023 road deaths × 2024 BEV fleet share × Tesla share inside BEVs ×
-					assumed fatal-risk reduction
+					selected Tesla hardware scope × assumed fatal-risk reduction
 				</code>
+			</div>
+
+			<div class="section-head section-head--compact">
+				<p class="eyebrow">Hardware scope</p>
+				<h2>The biggest win lands when HW3 and HW4 are both in scope</h2>
+				<p>
+					Same country data. Same safety assumption. The difference below is only
+					how much of the Tesla fleet policy actually unlocks.
+				</p>
+			</div>
+
+			<div class="scope-grid">
+				{
+					initialScopeComparisons.map((scope) => (
+						<article
+							class:list={[
+								"scope-card",
+								scope.key === defaultScenario.approvalScopeKey && "is-active",
+							]}
+							data-scope-card={scope.key}
+						>
+							<span class="scope-card__label">{scope.label}</span>
+							<strong
+								class="scope-card__value"
+								id={`scope-${scope.key}-value`}
+							>
+								{formatLives.format(scope.total)}
+								<span class="unit">lives/yr</span>
+							</strong>
+							<p class="scope-card__meta">
+								{scope.coverageShare}% of the Tesla fleet in scope
+							</p>
+							<p class="scope-card__note">{scope.explainer}</p>
+							<p
+								class="scope-card__multiplier"
+								id={`scope-${scope.key}-multiplier`}
+							>
+								{
+									scope.key === "latest-only"
+										? "Baseline"
+										: `${formatLives.format(scope.total / initialLatestScopeTotal)}x newest-only`
+								}
+							</p>
+						</article>
+					))
+				}
 			</div>
 
 			<div class="summary-grid">
@@ -191,7 +286,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 						{formatLives.format(initialTotal)}
 						<span class="unit">lives/yr</span>
 					</strong>
-					<p>Across the EU under the default scenario shown above.</p>
+					<p>
+						Across the EU under <span id="annual-upside-scope">{initialScope.label}</span>.
+					</p>
 				</article>
 				<article class="score-card">
 					<span class="score-card__label">Since testing began</span>
@@ -219,7 +316,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					</strong>
 					<p>
 						<span id="leader-value">{formatLives.format(initialLeader.estimatedLivesPerYear)}</span>
-						illustrative lives/year under the default scenario.
+						illustrative lives/year under <span id="leader-scope">{initialScope.label}</span>.
 					</p>
 				</article>
 			</div>
@@ -232,7 +329,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				<p>
 					This is a country-by-country ranking of the estimated annual safety
 					upside currently left on the table. It is based on the latest full
-					Eurostat fatality dataset plus 2024 BEV fleet share data.
+					Eurostat fatality dataset plus 2024 BEV fleet share data, filtered
+					through the selected approval scope.
 				</p>
 			</div>
 
@@ -378,24 +476,31 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		define:vars={{
 			countries,
 			defaultScenario,
+			fleetScopes,
 			approvalMoment: DUTCH_APPROVAL_MOMENT,
 			processStartMoment: PROCESS_STARTED_MOMENT,
 		}}
 	>
 		const teslaShareInput = document.querySelector("#tesla-share");
 		const safetyGainInput = document.querySelector("#safety-gain");
+		const scopeButtons = Array.from(document.querySelectorAll("[data-scope-key]"));
+		const scopeCards = Array.from(document.querySelectorAll("[data-scope-card]"));
 		const teslaShareValue = document.querySelector("#tesla-share-value");
 		const safetyGainValue = document.querySelector("#safety-gain-value");
+		const approvalScopeValue = document.querySelector("#approval-scope-value");
 		const annualUpside = document.querySelector("#annual-upside");
+		const annualUpsideScope = document.querySelector("#annual-upside-scope");
 		const sinceProcess = document.querySelector("#since-process");
 		const sinceApproval = document.querySelector("#since-approval");
 		const approvalDays = document.querySelector("#approval-days");
 		const leaderCountry = document.querySelector("#leader-country");
 		const leaderValue = document.querySelector("#leader-value");
+		const leaderScope = document.querySelector("#leader-scope");
 		const countryRows = document.querySelector("#country-rows");
 		const realtimeProcessCounter = document.querySelector("#realtime-process-counter");
 		const realtimeApprovalCounter = document.querySelector("#realtime-approval-counter");
 		const realtimeRate = document.querySelector("#realtime-rate");
+		const selectedScopeCopy = document.querySelector("#selected-scope-copy");
 
 		const whole = new Intl.NumberFormat("en-US");
 		const lives = new Intl.NumberFormat("en-US", {
@@ -403,12 +508,19 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			maximumFractionDigits: 1,
 		});
 
+		const scopesByKey = Object.fromEntries(
+			fleetScopes.map((scope) => [scope.key, scope]),
+		);
 		const secondsPerYear = 365 * 24 * 60 * 60;
 		let annualUpsideValue = 0;
+		let currentScopeKey = defaultScenario.approvalScopeKey;
 
 		const compute = (country, scenario) => {
+			const scope = scopesByKey[scenario.approvalScopeKey] ?? fleetScopes[fleetScopes.length - 1];
 			const addressableFleetShare =
-				(country.bevFleetShare2024 / 100) * (scenario.teslaShareWithinBev / 100);
+				(country.bevFleetShare2024 / 100) *
+				(scenario.teslaShareWithinBev / 100) *
+				(scope.coverageShare / 100);
 			const estimatedLivesPerYear =
 				country.fatalities2023 *
 				addressableFleetShare *
@@ -423,6 +535,52 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 		const elapsedSeconds = (from) =>
 			Math.max(0, (Date.now() - Date.parse(from)) / 1000);
+
+		const computeScopeResults = (baseScenario) =>
+			fleetScopes.map((scope) => {
+				const scenario = { ...baseScenario, approvalScopeKey: scope.key };
+				const rows = countries
+					.map((country) => compute(country, scenario))
+					.sort((left, right) => right.estimatedLivesPerYear - left.estimatedLivesPerYear);
+
+				return {
+					...scope,
+					rows,
+					total: rows.reduce((sum, row) => sum + row.estimatedLivesPerYear, 0),
+				};
+			});
+
+		const updateScopeCards = (scopeResults) => {
+			const latestOnlyTotal =
+				scopeResults.find((scope) => scope.key === "latest-only")?.total ?? 1;
+			const activeScope = scopesByKey[currentScopeKey] ?? fleetScopes[fleetScopes.length - 1];
+
+			approvalScopeValue.textContent = activeScope.label;
+			selectedScopeCopy.textContent = activeScope.label;
+			annualUpsideScope.textContent = activeScope.label;
+			leaderScope.textContent = activeScope.label;
+
+			scopeButtons.forEach((button) => {
+				const active = button.dataset.scopeKey === currentScopeKey;
+				button.classList.toggle("is-active", active);
+				button.setAttribute("aria-pressed", active ? "true" : "false");
+			});
+
+			scopeCards.forEach((card) => {
+				card.classList.toggle("is-active", card.dataset.scopeCard === currentScopeKey);
+			});
+
+			scopeResults.forEach((scope) => {
+				const value = document.querySelector(`#scope-${scope.key}-value`);
+				const multiplier = document.querySelector(`#scope-${scope.key}-multiplier`);
+
+				value.innerHTML = `${lives.format(scope.total)} <span class="unit">lives/yr</span>`;
+				multiplier.textContent =
+					scope.key === "latest-only"
+						? "Baseline"
+						: `${lives.format(scope.total / latestOnlyTotal)}x newest-only`;
+			});
+		};
 
 		const updateRealtimeCounters = () => {
 			const approvalSeconds = elapsedSeconds(approvalMoment);
@@ -448,22 +606,25 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				: "status-badge status-badge--pending";
 
 		const render = () => {
-			const scenario = {
+			const baseScenario = {
 				teslaShareWithinBev: Number(teslaShareInput.value),
 				safetyGain: Number(safetyGainInput.value),
 			};
 
-			teslaShareValue.textContent = `${scenario.teslaShareWithinBev}%`;
-			safetyGainValue.textContent = `${scenario.safetyGain}%`;
+			teslaShareValue.textContent = `${baseScenario.teslaShareWithinBev}%`;
+			safetyGainValue.textContent = `${baseScenario.safetyGain}%`;
 
-			const rows = countries
-				.map((country) => compute(country, scenario))
-				.sort((left, right) => right.estimatedLivesPerYear - left.estimatedLivesPerYear);
+			const scopeResults = computeScopeResults(baseScenario);
+			const selectedResult =
+				scopeResults.find((scope) => scope.key === currentScopeKey) ??
+				scopeResults[scopeResults.length - 1];
 
-			const total = rows.reduce((sum, row) => sum + row.estimatedLivesPerYear, 0);
+			const rows = selectedResult.rows;
+			const total = selectedResult.total;
 			const leader = rows[0];
 			annualUpsideValue = total;
 
+			updateScopeCards(scopeResults);
 			annualUpside.innerHTML = `${lives.format(total)} <span class="unit">lives/yr</span>`;
 			leaderCountry.textContent = leader.name;
 			leaderValue.textContent = lives.format(leader.estimatedLivesPerYear);
@@ -495,6 +656,12 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				.join("");
 		};
 
+		scopeButtons.forEach((button) => {
+			button.addEventListener("click", () => {
+				currentScopeKey = button.dataset.scopeKey;
+				render();
+			});
+		});
 		teslaShareInput.addEventListener("input", render);
 		safetyGainInput.addEventListener("input", render);
 		render();

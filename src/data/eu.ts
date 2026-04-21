@@ -3,6 +3,16 @@ export type ApprovalState = "national-approval" | "pending-eu-vote";
 export type Scenario = {
 	teslaShareWithinBev: number;
 	safetyGain: number;
+	approvalScopeKey: FleetScopeKey;
+};
+
+export type FleetScopeKey = "latest-only" | "hw4" | "hw3-hw4";
+
+export type FleetScope = {
+	key: FleetScopeKey;
+	label: string;
+	coverageShare: number;
+	explainer: string;
 };
 
 export type CountryRecord = {
@@ -38,7 +48,29 @@ export const APPROVED_MEMBER_STATES = 1;
 export const defaultScenario: Scenario = {
 	teslaShareWithinBev: 20,
 	safetyGain: 35,
+	approvalScopeKey: "hw3-hw4",
 };
+
+export const fleetScopes: FleetScope[] = [
+	{
+		key: "latest-only",
+		label: "Newest cars only",
+		coverageShare: 10,
+		explainer: "A narrow launch that only touches a thin slice of the newest Tesla vehicles.",
+	},
+	{
+		key: "hw4",
+		label: "HW4 fleet",
+		coverageShare: 30,
+		explainer: "A broader rollout, but still limited to the newer hardware generation.",
+	},
+	{
+		key: "hw3-hw4",
+		label: "HW3 + HW4 fleet",
+		coverageShare: 90,
+		explainer: "The much bigger step-change: approval reaches most of the Tesla fleet rather than a token slice.",
+	},
+];
 
 export const countries: CountryRecord[] = [
 	{ code: "BE", name: "Belgium", fatalities2023: 501, fatalitiesPerMillion2023: 43, bevFleetShare2024: 4.981, population2025: 11883495, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
@@ -86,7 +118,8 @@ export const timeline = [
 export const methodology = [
 	"Country ladder uses the latest full Eurostat country road-fatality dataset (2023) so every EU state is comparable in the same table.",
 	"EV readiness uses Eurostat's 2024 share of battery-electric passenger cars in each national fleet as a proxy for how much of the fleet is currently FSD-addressable.",
-	"The scenario model multiplies 2023 road deaths by BEV fleet share, assumed Tesla share within the BEV fleet, and assumed fatal-risk reduction.",
+	"The scenario model multiplies 2023 road deaths by BEV fleet share, assumed Tesla share within the BEV fleet, selected Tesla hardware-scope coverage, and assumed fatal-risk reduction.",
+	"The hardware-scope settings are explicit scenario assumptions: newest cars only is set to 10% of the Tesla fleet, HW4 to 30%, and HW3 plus HW4 to 90%.",
 	"The model is intentionally transparent and editable. It is not a legal-liability claim, a clinical study, or proof that a named individual caused a specific death.",
 	"2024 and 2025 Commission road-safety releases are used in the timeline and context cards because they are newer, but their country detail is still preliminary.",
 ];
@@ -100,8 +133,16 @@ export const sources = [
 	{ label: "Eurostat tran_sf_roadus", href: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?time=2023&sex=T&age=TOTAL&pers_cat=TOTAL&unit=NR", note: "Road traffic fatalities by country, 2023." },
 ];
 
+export function getFleetScope(key: FleetScopeKey) {
+	return fleetScopes.find((scope) => scope.key === key) ?? fleetScopes[fleetScopes.length - 1];
+}
+
 export function computeCountryOpportunity(country: CountryRecord, scenario: Scenario): CountryOpportunity {
-	const addressableFleetShare = (country.bevFleetShare2024 / 100) * (scenario.teslaShareWithinBev / 100);
+	const scope = getFleetScope(scenario.approvalScopeKey);
+	const addressableFleetShare =
+		(country.bevFleetShare2024 / 100) *
+		(scenario.teslaShareWithinBev / 100) *
+		(scope.coverageShare / 100);
 	const estimatedLivesPerYear = country.fatalities2023 * addressableFleetShare * (scenario.safetyGain / 100);
 	return { ...country, addressableFleetShare, estimatedLivesPerYear };
 }

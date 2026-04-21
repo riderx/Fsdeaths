@@ -223,14 +223,117 @@ a { color: inherit; }
 	line-height: 1.6;
 }
 .section-head { display: grid; gap: 0.75rem; margin-bottom: 1.25rem; max-width: 70ch; }
+.section-head--compact { margin-top: 1.6rem; }
 .section-head h2, .method__title, .sources__title { font-size: clamp(2rem, 4vw, 3.4rem); }
 .controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .control { padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(255, 255, 255, 0.02); }
+.control--scope { grid-column: 1 / -1; }
 .control label { display: grid; gap: 0.45rem; }
 .control__head { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; font-family: var(--display-font); font-weight: 700; }
 .control__head strong { color: var(--warning); font-size: 1.1rem; }
 .control small { color: var(--soft); line-height: 1.5; }
 .control input[type="range"] { width: 100%; accent-color: var(--accent); }
+.scope-picker {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.75rem;
+	margin-top: 0.2rem;
+}
+.scope-button {
+	display: grid;
+	gap: 0.35rem;
+	padding: 0.95rem;
+	border: 1px solid rgba(255, 183, 128, 0.14);
+	border-radius: var(--radius-md);
+	background: rgba(255, 255, 255, 0.02);
+	color: var(--text);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+.scope-button span, .scope-card__label, .scope-card__multiplier {
+	font-family: var(--display-font);
+	text-transform: uppercase;
+}
+.scope-button span {
+	font-size: 1rem;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+}
+.scope-button small {
+	display: block;
+	margin: 0;
+	color: var(--soft);
+}
+.scope-button:hover {
+	transform: translateY(-1px);
+	border-color: rgba(255, 183, 128, 0.3);
+}
+.scope-button.is-active {
+	border-color: rgba(255, 107, 44, 0.45);
+	background: linear-gradient(180deg, rgba(255, 107, 44, 0.14), rgba(255, 255, 255, 0.03));
+	box-shadow: inset 0 0 0 1px rgba(255, 107, 44, 0.14);
+}
+.scope-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+	margin-top: 1rem;
+}
+.scope-card {
+	position: relative;
+	padding: 1.15rem;
+	border: 1px solid rgba(255, 183, 128, 0.14);
+	border-radius: var(--radius-lg);
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 55%),
+		rgba(42, 24, 17, 0.82);
+}
+.scope-card.is-active {
+	border-color: rgba(255, 107, 44, 0.5);
+	background:
+		linear-gradient(180deg, rgba(255, 107, 44, 0.18), transparent 58%),
+		rgba(42, 24, 17, 0.94);
+	box-shadow: inset 0 0 0 1px rgba(255, 107, 44, 0.12);
+}
+.scope-card__label {
+	display: block;
+	color: var(--warning);
+	font-size: 0.82rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+}
+.scope-card__value {
+	display: block;
+	margin-top: 0.7rem;
+	font-family: var(--display-font);
+	font-size: clamp(2.4rem, 4vw, 3.8rem);
+	font-weight: 900;
+	line-height: 0.92;
+	letter-spacing: -0.05em;
+}
+.scope-card__value .unit {
+	font-size: 0.32em;
+	letter-spacing: 0.04em;
+}
+.scope-card__meta,
+.scope-card__note {
+	margin: 0.7rem 0 0;
+	color: var(--muted);
+	line-height: 1.6;
+}
+.scope-card__multiplier {
+	display: inline-flex;
+	margin-top: 0.9rem;
+	padding: 0.4rem 0.65rem;
+	border-radius: 999px;
+	background: rgba(255, 209, 102, 0.1);
+	color: var(--warning);
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+}
 .summary-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 1rem; }
 .score-card__value .unit { font-size: 0.5em; letter-spacing: 0.02em; }
 .country-ladder { width: 100%; border-collapse: collapse; }
@@ -317,7 +420,7 @@ a { color: inherit; }
 @media (max-width: 760px) {
 	.page-shell { width: min(calc(100% - 1rem), var(--page-width)); padding-top: 3.75rem; }
 	.panel, .hero { padding: 1.1rem; border-radius: 22px; }
-	.hero__stats, .controls, .summary-grid, .timeline, .counter-wall__rail { grid-template-columns: 1fr; }
+	.hero__stats, .controls, .summary-grid, .timeline, .counter-wall__rail, .scope-picker, .scope-grid { grid-template-columns: 1fr; }
 	.country-ladder, .country-ladder thead, .country-ladder tbody, .country-ladder th, .country-ladder td, .country-ladder tr { display: block; }
 	.country-ladder thead { display: none; }
 	.country-ladder tbody tr { padding: 1rem 0; }
