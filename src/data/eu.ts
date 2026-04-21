@@ -15,6 +15,14 @@ export type FleetScope = {
 	explainer: string;
 };
 
+export type HardwareExplainerCard = {
+	key: string;
+	label: string;
+	title: string;
+	body: string;
+	points: string[];
+};
+
 export type CountryRecord = {
 	code: string;
 	name: string;
@@ -58,19 +66,52 @@ export const fleetScopes: FleetScope[] = [
 		key: "latest-only",
 		label: "Newest cars only",
 		coverageShare: 10,
-		explainer: "A narrow launch that only touches a thin slice of the newest Tesla vehicles.",
+		explainer: "A narrow political yes that only touches a thin slice of the newest eligible vehicles.",
 	},
 	{
 		key: "hw4",
 		label: "HW4 fleet",
 		coverageShare: 30,
-		explainer: "A broader rollout, but still limited to the newer hardware generation.",
+		explainer: "A broader approval, but still limited to the newer hardware generation.",
 	},
 	{
 		key: "hw3-hw4",
 		label: "HW3 + HW4 fleet",
 		coverageShare: 90,
-		explainer: "The much bigger step-change: approval reaches most of the Tesla fleet rather than a token slice.",
+		explainer: "The real step-change: approval reaches most of the FSD-capable fleet rather than a token slice.",
+	},
+];
+
+export const hardwareExplainerCards: HardwareExplainerCard[] = [
+	{
+		key: "hw3",
+		label: "HW3",
+		title: "The older FSD-capable installed base",
+		body: "Tesla's own service bulletin says a vehicle that shows \"Full self-driving computer\" in Additional Vehicle Information is HW3.0. Tesla's subscription support page says vehicles with FSD computer 3.0 or above are eligible for FSD (Supervised).",
+		points: [
+			"If you never clear HW3, a large already-capable fleet still stays outside the gate.",
+			"That is why the broadest scenario on this site is HW3 + HW4, not HW4 alone.",
+		],
+	},
+	{
+		key: "hw4",
+		label: "HW4",
+		title: "The newer AI computer generation",
+		body: "Tesla's newer manuals call the newer stack the AI computer, and Tesla service and recall documents separately refer to HW4 car computers. In practice, HW4 is the newer generation, not the whole fleet.",
+		points: [
+			"A HW4-only approval mostly unlocks newer vehicles, not the older installed base.",
+			"Tesla's own service record shows HW4-specific recalls and camera/computer fixes, which means the generations are real and separately managed.",
+		],
+	},
+	{
+		key: "public-stats",
+		label: "Public stats",
+		title: "What is public, and what is not",
+		body: "Tesla publicly claims FSD (Supervised) has 7x fewer major and minor collisions and 5x fewer off-highway collisions than driving without it. But Tesla's public Vehicle Safety Report is grouped by driving mode, not by HW3 versus HW4.",
+		points: [
+			"This site therefore does not invent a HW3 failure-rate table or a HW4 failure-rate table.",
+			"The 10% / 30% / 90% scope settings on this page are transparent scenario assumptions about policy reach, not Tesla-published per-hardware fleet counts.",
+		],
 	},
 ];
 
@@ -122,11 +163,17 @@ export const methodology = [
 	"EV readiness uses Eurostat's 2024 share of battery-electric passenger cars in each national fleet as a proxy for how much of the fleet is currently FSD-addressable.",
 	"The scenario model multiplies 2023 road deaths by BEV fleet share, assumed Tesla share within the BEV fleet, selected Tesla hardware-scope coverage, and assumed fatal-risk reduction.",
 	"The hardware-scope settings are explicit scenario assumptions: newest cars only is set to 10% of the Tesla fleet, HW4 to 30%, and HW3 plus HW4 to 90%.",
+	"Tesla's public safety reporting is cited only for overall mode-level comparisons. It does not publish a HW3-versus-HW4 collision table, so this page does not pretend one exists.",
 	"The model is intentionally transparent and editable. It is not a legal-liability claim, a clinical study, or proof that a named individual caused a specific death.",
 	"2024 and 2025 Commission road-safety releases are used in the timeline and context cards because they are newer, but their country detail is still preliminary.",
 ];
 
 export const sources = [
+	{ label: "Tesla support: Full Self-Driving (Supervised)", href: "https://www.tesla.com/support/fsd", note: "Tesla says FSD (Supervised) has 7x fewer major and minor collisions and 5x fewer off-highway collisions than driving without it, but the public report is not split by hardware generation." },
+	{ label: "Tesla support: Full Self-Driving (Supervised) Subscriptions", href: "https://www.tesla.com/support/full-self-driving-subscriptions", note: "Tesla says vehicles with FSD computer 3.0 or above are eligible, subject to configuration and region." },
+	{ label: "Tesla support: AI Computer Installations", href: "https://www.tesla.com/en_ca/support/ai-computer", note: "Tesla says owners with computer 2.0 or 2.5 can be upgraded to Full Self-Driving computer 3.0, and separately describes the newer AI computer." },
+	{ label: "Tesla service bulletin SB-22-00-007", href: "https://service.tesla.com/docs/ServiceBulletins/External/SB/SB-22-00-007_Update_Firmware_to_Allow_Navigate_on_Autopilot_to_Comply_with_European_Regulations_R1.pdf", note: "Tesla says a vehicle showing \"Full self-driving computer\" in Additional Vehicle Information is equipped with HW3.0." },
+	{ label: "Tesla service bulletin SB-25-00-001", href: "https://service.tesla.com/docs/ServiceBulletins/External/SB/SB-25-00-001_Update_Vehicle_Software_Or_Replace_Car_Computer_To_Correct_Loss_Of_Rearview_Camera_Feed.pdf", note: "Tesla identifies certain HW4 car computers as a separate hardware group with its own rearview-camera issue." },
 	{ label: "RDW response following a message from Tesla", href: "https://www.rdw.nl/en/news/2026/rdw-response-following-a-message-from-tesla", note: "RDW said the final assessment phase followed roughly 18 months of joint testing." },
 	{ label: "RDW explanation of European type approval Tesla with provisional validity in the Netherlands", href: "https://www.rdw.nl/en/news/2026/rdw-explanation-of-european-type-approval-tesla-with-provisional-validity-in-the-netherlands", note: "RDW says Dutch validity began on 10 April 2026 and EU-wide use still needs a Commission step plus a member-state vote." },
 	{ label: "EU sets no Tesla FSD vote for May 5, Dutch to brief in 20-minute slot", href: "https://eletric-vehicles.com/tesla/eu-sets-no-tesla-fsd-vote-for-may-5-dutch-to-brief-in-20-minute-slot/", note: "Secondary reporting published 17 April 2026, citing a European Commission draft agenda screenshot, says 5 May 2026 is an Article 39 update slot and that the next scheduled TCMV meeting is 30 June 2026." },

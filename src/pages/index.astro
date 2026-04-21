@@ -18,6 +18,7 @@ import {
 	defaultScenario,
 	fleetScopes,
 	getFleetScope,
+	hardwareExplainerCards,
 	institutionTrack,
 	methodology,
 	rankCountries,
@@ -79,17 +80,18 @@ const renderStatusClass = (row: CountryOpportunity) =>
 	<main class="page-shell">
 		<section class="panel hero hero--clock">
 			<div class="hero__copy">
-				<p class="eyebrow">{SITE_TITLE} • {SITE_DOMAIN}</p>
+				<p class="eyebrow">{SITE_TITLE} / {SITE_DOMAIN}</p>
 				<h1>
-					The clock is
+					Ministers, your clock is
 					<span class="accent">still running.</span>
 				</h1>
 				<p class="lead">
 					RDW approved Tesla FSD Supervised in the Netherlands on 10 April 2026
 					after roughly 18 months of testing. RDW also says EU-wide validity
-					still needs a European Commission step and a member-state vote. This
-					page turns that delay into a live scenario clock with visible,
-					editable assumptions instead of hiding the cost inside policy prose.
+					still needs a European Commission step and a member-state vote. If you
+					sit anywhere in that chain, this page is addressed to you. The
+					bottleneck is political now, so the cost of waiting should be visible
+					in public, not buried inside committee language.
 				</p>
 				<div class="hero__warning">
 					This is an institutional accountability tracker, not a legal-liability
@@ -104,8 +106,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					<span>Live scenario counter</span>
 				</div>
 				<p class="counter-wall__eyebrow">
-					Illustrative lives left on the table since the RDW/Tesla testing
-					programme began
+					Illustrative lives left on the table while Europe keeps the approval
+					chain blocked
 				</p>
 				<strong class="counter-wall__value" id="realtime-process-counter">
 					{formatLives.format(processInitial)}
@@ -248,8 +250,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					</div>
 					<small>
 						Explicit scenario assumption. The point is to show how much bigger
-						the upside gets when approval reaches the broad HW3 and HW4 installed
-						base instead of a token slice of the newest cars.
+						the upside gets when you approve the broad HW3 and HW4 installed base
+						instead of hiding behind a token newest-cars-only unlock.
 					</small>
 				</div>
 			</div>
@@ -257,17 +259,17 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			<div class="formula">
 				<strong>Formula:</strong>
 				<code>
-					2023 road deaths × 2024 BEV fleet share × Tesla share inside BEVs ×
-					selected Tesla hardware scope × assumed fatal-risk reduction
+					2023 road deaths x 2024 BEV fleet share x Tesla share inside BEVs x
+					selected Tesla hardware scope x assumed fatal-risk reduction
 				</code>
 			</div>
 
 			<div class="section-head section-head--compact">
 				<p class="eyebrow">Hardware scope</p>
-				<h2>The biggest win lands when HW3 and HW4 are both in scope</h2>
+				<h2>The biggest policy win lands when HW3 and HW4 are both in scope</h2>
 				<p>
 					Same country data. Same safety assumption. The difference below is only
-					how much of the Tesla fleet policy actually unlocks.
+					how much of the eligible fleet your decision actually unlocks.
 				</p>
 			</div>
 
@@ -306,6 +308,47 @@ const renderStatusClass = (row: CountryOpportunity) =>
 						</article>
 					))
 				}
+			</div>
+
+			<div class="section-head section-head--compact">
+				<p class="eyebrow">Before You Vote</p>
+				<h2>What HW3 and HW4 actually mean</h2>
+				<p>
+					If you are delaying on the grounds that the hardware story is unclear,
+					this is the plain version. HW4-only is not the whole fleet. HW3 plus
+					HW4 is where approval stops being symbolic and starts reaching most of
+					the already FSD-capable base.
+				</p>
+			</div>
+
+			<div class="hardware-grid">
+				{
+					hardwareExplainerCards.map((card) => (
+						<article
+							class:list={[
+								"hardware-card",
+								card.key === "public-stats" && "hardware-card--alert",
+							]}
+						>
+							<span class="hardware-card__label">{card.label}</span>
+							<h3>{card.title}</h3>
+							<p>{card.body}</p>
+							<ul class="hardware-card__list">
+								{card.points.map((point) => <li>{point}</li>)}
+							</ul>
+						</article>
+					))
+				}
+			</div>
+
+			<div class="hardware-callout">
+				<strong>A HW4-only yes is still a partial yes.</strong>
+				<p>
+					The reason the main counter defaults to <span id="hardware-callout-scope">{initialScope.label}</span>
+					is simple: approving only the newest generation leaves most of the
+					addressable fleet outside the gate, while delay keeps accumulating in
+					public.
+				</p>
 			</div>
 
 			<div class="summary-grid">
@@ -354,18 +397,19 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		<section class="panel">
 			<div class="section-head">
 				<p class="eyebrow">Decision test</p>
-				<h2>What Europe wins by allowing FSD now, and what waiting really buys</h2>
+				<h2>What you win by voting now, and what you own if you keep waiting</h2>
 				<p>
-					This is the policy trade. Fast approval has operational and political
-					risk. Waiting has operational and political risk too. The difference is
-					that waiting keeps the upside frozen while the clock keeps moving.
+					If you are a minister, commissioner, or committee voter, this is your
+					trade. Fast approval has operational and political risk. Waiting has
+					operational and political risk too. The difference is that waiting
+					keeps the upside frozen while your delay keeps the clock moving.
 				</p>
 			</div>
 
 			<div class="decision-grid">
 				<article class="decision-card decision-card--go">
 					<span class="decision-card__kicker">Allow Today</span>
-					<h3>What they win</h3>
+					<h3>What you win</h3>
 					<ul class="decision-list">
 						<li>
 							Unlock
@@ -386,15 +430,15 @@ const renderStatusClass = (row: CountryOpportunity) =>
 							and real European operating data.
 						</li>
 						<li>
-							Show Europe can prioritise measurable safety upside over procedural
-							stall.
+							Show voters you can prioritise measurable safety upside over
+							procedural stall.
 						</li>
 					</ul>
 				</article>
 
 				<article class="decision-card decision-card--go">
 					<span class="decision-card__kicker">Allow Today</span>
-					<h3>What they risk</h3>
+					<h3>What you risk</h3>
 					<ul class="decision-list">
 						<li>Owning the public fallout from any visible failure after approval.</li>
 						<li>
@@ -410,7 +454,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 				<article class="decision-card decision-card--wait">
 					<span class="decision-card__kicker">Keep Waiting</span>
-					<h3>What they think they win</h3>
+					<h3>What you think you win</h3>
 					<ul class="decision-list">
 						<li>More committee time, more institutional cover, less short-term exposure.</li>
 						<li>Extra time to refine conditions, reporting formats, and liability posture.</li>
@@ -423,7 +467,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 				<article class="decision-card decision-card--wait">
 					<span class="decision-card__kicker">Keep Waiting</span>
-					<h3>What they risk</h3>
+					<h3>What you own</h3>
 					<ul class="decision-list">
 						<li>
 							Leaving
@@ -444,8 +488,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 							Europe keeps arguing in the abstract.
 						</li>
 						<li>
-							Making delay itself the story, instead of the quality of the safety
-							rules.
+							Making your delay the story, instead of the quality of the safety
+							rules you could already be enforcing.
 						</li>
 					</ul>
 				</article>
@@ -462,7 +506,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					member-state vote. Reporting published on 17 April 2026, citing a
 					screenshot of a European Commission draft TCMV agenda, says the
 					5 May 2026 meeting is only a Netherlands Article 39 update slot, not
-					the vote itself.
+					the vote itself. If that schedule holds, the delay is no longer a
+					technical unknown. It is a political choice.
 				</p>
 			</div>
 
@@ -518,9 +563,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				<h2>Where the frozen safety upside looks largest</h2>
 				<p>
 					This is a country-by-country ranking of the estimated annual safety
-					upside currently left on the table. It is based on the latest full
-					Eurostat fatality dataset plus 2024 BEV fleet share data, filtered
-					through the selected approval scope.
+					upside governments are still leaving on the table. It is based on the
+					latest full Eurostat fatality dataset plus 2024 BEV fleet share data,
+					filtered through the selected approval scope.
 				</p>
 			</div>
 
@@ -704,6 +749,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		const realtimeApprovalCounter = document.querySelector("#realtime-approval-counter");
 		const realtimeRate = document.querySelector("#realtime-rate");
 		const selectedScopeCopy = document.querySelector("#selected-scope-copy");
+		const hardwareCalloutScope = document.querySelector("#hardware-callout-scope");
 
 		const whole = new Intl.NumberFormat("en-US");
 		const lives = new Intl.NumberFormat("en-US", {
@@ -782,6 +828,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 			approvalScopeValue.textContent = activeScope.label;
 			selectedScopeCopy.textContent = activeScope.label;
+			hardwareCalloutScope.textContent = activeScope.label;
 			annualUpsideScope.textContent = activeScope.label;
 			leaderScope.textContent = activeScope.label;
 
