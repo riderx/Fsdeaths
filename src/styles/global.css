@@ -563,6 +563,55 @@ a { color: inherit; }
 	font-size: 1.05em;
 	letter-spacing: -0.01em;
 }
+.committee-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1rem;
+}
+.committee-card {
+	padding: 1.05rem;
+	border: 1px solid rgba(255, 183, 128, 0.14);
+	border-radius: var(--radius-lg);
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 55%),
+		rgba(42, 24, 17, 0.84);
+}
+.committee-card--hot {
+	border-color: rgba(255, 107, 44, 0.32);
+	background:
+		linear-gradient(180deg, rgba(255, 107, 44, 0.14), transparent 58%),
+		rgba(42, 24, 17, 0.94);
+}
+.committee-card__label {
+	display: block;
+	color: var(--warning);
+	font-family: var(--display-font);
+	font-size: 0.8rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+.committee-card__value {
+	display: block;
+	margin-top: 0.65rem;
+	font-family: var(--display-font);
+	font-size: clamp(1.55rem, 3vw, 2.45rem);
+	font-weight: 900;
+	line-height: 0.94;
+	letter-spacing: -0.04em;
+}
+.committee-card__value .unit {
+	font-size: 0.38em;
+	letter-spacing: 0.04em;
+}
+.committee-card p {
+	margin: 0.8rem 0 0;
+	color: var(--muted);
+	line-height: 1.6;
+}
+.committee-card strong {
+	color: #fff1d9;
+}
 .summary-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 1rem; }
 .score-card__value .unit { font-size: 0.5em; letter-spacing: 0.02em; }
 .country-ladder { width: 100%; border-collapse: collapse; }
@@ -675,13 +724,13 @@ a { color: inherit; }
 }
 @media (max-width: 1100px) {
 	.hero, .method-grid { grid-template-columns: 1fr; }
-	.summary-grid, .timeline, .decision-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.summary-grid, .timeline, .decision-grid, .committee-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.institutions { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
 	.page-shell { width: min(calc(100% - 1rem), var(--page-width)); padding-top: 3.75rem; }
 	.panel, .hero { padding: 1.1rem; border-radius: 22px; }
-	.hero__stats, .controls, .summary-grid, .timeline, .counter-wall__rail, .scope-picker, .scope-grid, .decision-grid { grid-template-columns: 1fr; }
+	.hero__stats, .controls, .summary-grid, .timeline, .counter-wall__rail, .scope-picker, .scope-grid, .decision-grid, .committee-grid { grid-template-columns: 1fr; }
 	.country-ladder, .country-ladder thead, .country-ladder tbody, .country-ladder th, .country-ladder td, .country-ladder tr { display: block; }
 	.country-ladder thead { display: none; }
 	.country-ladder tbody tr { padding: 1rem 0; }

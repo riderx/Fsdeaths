@@ -41,6 +41,8 @@ export const DUTCH_APPROVAL_DATE = "2026-04-10";
 export const PROCESS_STARTED_APPROX = "2024-10-01";
 export const DUTCH_APPROVAL_MOMENT = "2026-04-10T00:00:00Z";
 export const PROCESS_STARTED_MOMENT = "2024-10-01T00:00:00Z";
+export const REPORTED_TCMV_PRESENTATION_DATE = "2026-05-05";
+export const REPORTED_TCMV_EARLIEST_VOTE_DATE = "2026-06-30";
 
 export const EU_ROAD_DEATHS_2025 = 19_400;
 export const APPROVED_MEMBER_STATES = 1;
@@ -127,6 +129,7 @@ export const methodology = [
 export const sources = [
 	{ label: "RDW response following a message from Tesla", href: "https://www.rdw.nl/en/news/2026/rdw-response-following-a-message-from-tesla", note: "RDW said the final assessment phase followed roughly 18 months of joint testing." },
 	{ label: "RDW explanation of European type approval Tesla with provisional validity in the Netherlands", href: "https://www.rdw.nl/en/news/2026/rdw-explanation-of-european-type-approval-tesla-with-provisional-validity-in-the-netherlands", note: "RDW says Dutch validity began on 10 April 2026 and EU-wide use still needs a Commission step plus a member-state vote." },
+	{ label: "EU sets no Tesla FSD vote for May 5, Dutch to brief in 20-minute slot", href: "https://eletric-vehicles.com/tesla/eu-sets-no-tesla-fsd-vote-for-may-5-dutch-to-brief-in-20-minute-slot/", note: "Secondary reporting published 17 April 2026, citing a European Commission draft agenda screenshot, says 5 May 2026 is an Article 39 update slot and that the next scheduled TCMV meeting is 30 June 2026." },
 	{ label: "European Commission: EU road deaths drop by 3% in 2025", href: "https://transport.ec.europa.eu/news-events/news/eu-road-deaths-drop-3-2025-2026-03-24_en", note: "The Commission reported around 19,400 road deaths across the EU in 2025." },
 	{ label: "Eurostat demo_gind", href: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?indic_de=JAN&time=2025", note: "Population on 1 January 2025." },
 	{ label: "Eurostat road_eqs_zev", href: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/road_eqs_zev?time=2024&mot_nrg=ELC&vehicle=CAR&unit=PC", note: "Share of battery-electric passenger cars in the national fleet, 2024." },

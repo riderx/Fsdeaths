@@ -7,6 +7,8 @@ import {
 	EU_ROAD_DEATHS_2025,
 	PROCESS_STARTED_APPROX,
 	PROCESS_STARTED_MOMENT,
+	REPORTED_TCMV_EARLIEST_VOTE_DATE,
+	REPORTED_TCMV_PRESENTATION_DATE,
 	SITE_DOMAIN,
 	SITE_DESCRIPTION,
 	SITE_TITLE,
@@ -34,6 +36,15 @@ const initialLeader = initialRanking[0];
 const approvalInitial = (initialTotal / 365) * approvalWaitDays;
 const processInitial = (initialTotal / 365) * processDays;
 const initialDaily = initialTotal / 365;
+const reportedPresentationDelayDays = daysBetween(
+	DUTCH_APPROVAL_DATE,
+	REPORTED_TCMV_PRESENTATION_DATE,
+);
+const reportedVoteDelayDays = daysBetween(
+	DUTCH_APPROVAL_DATE,
+	REPORTED_TCMV_EARLIEST_VOTE_DATE,
+);
+const initialReportedVoteDelay = initialDaily * reportedVoteDelayDays;
 const initialScope = getFleetScope(defaultScenario.approvalScopeKey);
 const initialScopeComparisons = fleetScopes.map((scope) => {
 	const rows = rankCountries({
@@ -443,6 +454,66 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 		<section class="panel">
 			<div class="section-head">
+				<p class="eyebrow">Committee delay</p>
+				<h2>The reported EU schedule still uses May for a presentation and June for the earliest vote window</h2>
+				<p>
+					RDW already moved on 10 April 2026 after roughly 18 months of testing.
+					RDW also says the remaining EU-wide path is Commission handling plus a
+					member-state vote. Reporting published on 17 April 2026, citing a
+					screenshot of a European Commission draft TCMV agenda, says the
+					5 May 2026 meeting is only a Netherlands Article 39 update slot, not
+					the vote itself.
+				</p>
+			</div>
+
+			<div class="committee-grid">
+				<article class="committee-card">
+					<span class="committee-card__label">10 Apr 2026</span>
+					<strong class="committee-card__value">Dutch approval landed</strong>
+					<p>RDW issued national validity after more than 18 months of testing.</p>
+				</article>
+				<article class="committee-card">
+					<span class="committee-card__label">5 May 2026</span>
+					<strong class="committee-card__value">Reported next meeting</strong>
+					<p>
+						The reported draft agenda gives the Netherlands an Article 39 update
+						slot only, not a vote, after a
+						<strong>{formatWhole.format(reportedPresentationDelayDays)}-day wait</strong>
+						from Dutch approval.
+					</p>
+				</article>
+				<article class="committee-card">
+					<span class="committee-card__label">30 Jun 2026</span>
+					<strong class="committee-card__value">Earliest reported vote window</strong>
+					<p>
+						That is a <strong>{formatWhole.format(reportedVoteDelayDays)}-day gap</strong>
+						from Dutch approval to the earliest reported formal committee vote.
+					</p>
+				</article>
+				<article class="committee-card committee-card--hot">
+					<span class="committee-card__label">Frozen by June</span>
+					<strong class="committee-card__value" id="committee-frozen">
+						{formatLives.format(initialReportedVoteDelay)}
+						<span class="unit">lives</span>
+					</strong>
+					<p>
+						Illustrative upside left on the table between 10 April 2026 and the
+						earliest reported 30 June 2026 vote window under
+						<span id="committee-scope">{initialScope.label}</span>.
+					</p>
+				</article>
+			</div>
+
+			<p class="footnote">
+				RDW's own 10 April 2026 explanation confirms the Commission step and the
+				member-state vote, but it does not publish committee dates. The 5 May
+				2026 and 30 June 2026 dates above come from secondary reporting that
+				cites a screenshot attributed to a European Commission draft agenda.
+			</p>
+		</section>
+
+		<section class="panel">
+			<div class="section-head">
 				<p class="eyebrow">Country ladder</p>
 				<h2>Where the frozen safety upside looks largest</h2>
 				<p>
@@ -573,7 +644,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 			<div class="method-card">
 				<span class="method-card__kicker">Sources</span>
-				<h2 class="sources__title">Official references</h2>
+				<h2 class="sources__title">Sources and reporting</h2>
 				<ul class="sources-list">
 					{
 						sources.map((source) => (
@@ -598,6 +669,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			fleetScopes,
 			approvalMoment: DUTCH_APPROVAL_MOMENT,
 			processStartMoment: PROCESS_STARTED_MOMENT,
+			reportedVoteDelayDays,
 		}}
 	>
 		const teslaShareInput = document.querySelector("#tesla-share");
@@ -615,6 +687,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		const decisionWaitAnnual = document.querySelector("#decision-wait-annual");
 		const decisionWaitDaily = document.querySelector("#decision-wait-daily");
 		const decisionWaitScope = document.querySelector("#decision-wait-scope");
+		const committeeFrozen = document.querySelector("#committee-frozen");
+		const committeeScope = document.querySelector("#committee-scope");
 		const sinceProcess = document.querySelector("#since-process");
 		const sinceApproval = document.querySelector("#since-approval");
 		const approvalDays = document.querySelector("#approval-days");
@@ -762,6 +836,14 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			decisionWaitScope.textContent = activeScope.label;
 		};
 
+		const updateCommitteeDelay = (total) => {
+			const activeScope = scopesByKey[currentScopeKey] ?? fleetScopes[fleetScopes.length - 1];
+			const frozenByVote = (total / 365) * reportedVoteDelayDays;
+
+			committeeFrozen.innerHTML = `${lives.format(frozenByVote)} <span class="unit">lives</span>`;
+			committeeScope.textContent = activeScope.label;
+		};
+
 		const updateRealtimeCounters = () => {
 			const approvalSeconds = elapsedSeconds(approvalMoment);
 			const processSeconds = elapsedSeconds(processStartMoment);
@@ -818,6 +900,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 			updateScopeCards(scopeResults);
 			updateDecisionCards(total);
+			updateCommitteeDelay(total);
 			annualUpside.innerHTML = `${lives.format(total)} <span class="unit">lives/yr</span>`;
 			leaderCountry.textContent = leader.name;
 			leaderValue.textContent = lives.format(leader.estimatedLivesPerYear);
