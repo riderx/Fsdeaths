@@ -10,6 +10,12 @@ const {
 	title = "Europe's FSD Delay Ledger",
 	description = "A source-backed tracker for Europe's FSD approval bottleneck.",
 } = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://fsddelay.org";
+const canonicalUrl = new URL(Astro.url.pathname, `${siteUrl}/`).toString();
+const socialImageUrl = `${siteUrl}/social-card.png?v=1`;
+const socialImageAlt =
+	"FSD Delay Clock share image with the headline Ministers, your clock is still running and a live counter panel.";
 ---
 
 <!doctype html>
@@ -19,9 +25,24 @@ const {
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=car1" />
 		<link rel="icon" type="image/png" href="/favicon.png?v=car1" sizes="128x128" />
+		<link rel="canonical" href={canonicalUrl} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<meta name="theme-color" content="#140c08" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="FSD Delay Clock" />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={socialImageUrl} />
+		<meta property="og:image:alt" content={socialImageAlt} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={socialImageUrl} />
+		<meta name="twitter:image:alt" content={socialImageAlt} />
 		<title>{title}</title>
 	</head>
 	<body>
