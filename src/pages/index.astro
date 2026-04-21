@@ -33,6 +33,7 @@ const pendingMemberStates = countries.length - APPROVED_MEMBER_STATES;
 const initialLeader = initialRanking[0];
 const approvalInitial = (initialTotal / 365) * approvalWaitDays;
 const processInitial = (initialTotal / 365) * processDays;
+const initialDaily = initialTotal / 365;
 const initialScope = getFleetScope(defaultScenario.approvalScopeKey);
 const initialScopeComparisons = fleetScopes.map((scope) => {
 	const rows = rankCountries({
@@ -101,7 +102,13 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				<div class="impact-stage" id="impact-stage" aria-hidden="true">
 					<div class="impact-stage__road"></div>
 					<div class="impact-stage__barrier"></div>
-					<div class="impact-stage__burst">Impact</div>
+					<div class="impact-stage__countdown">
+						<span class="impact-stage__countdown-label">Next +1</span>
+						<strong class="impact-stage__countdown-value" id="impact-next-timer">
+							{Math.max(0, Math.floor(365 / initialTotal))}d
+						</strong>
+					</div>
+					<div class="impact-stage__burst">!</div>
 					<div class="impact-stage__stamp" id="impact-stage-stamp">+1</div>
 					<div class="impact-stage__car">
 						<span class="impact-stage__roof"></span>
@@ -109,14 +116,6 @@ const renderStatusClass = (row: CountryOpportunity) =>
 						<span class="impact-stage__wheel impact-stage__wheel--front"></span>
 					</div>
 				</div>
-				<p class="impact-stage__hint">
-					Non-graphic trigger on each whole-number increase in the live count.
-					At the current rate: about
-					<span id="impact-days-per-life">
-						{formatLives.format(initialTotal > 0 ? 365 / initialTotal : 0)}
-					</span>
-					days per added life.
-				</p>
 				<p class="counter-wall__caption">
 					Approximate counter from October 2024 under the current slider values
 					and <span id="selected-scope-copy">{initialScope.label}</span>.
@@ -343,6 +342,107 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 		<section class="panel">
 			<div class="section-head">
+				<p class="eyebrow">Decision test</p>
+				<h2>What Europe wins by allowing FSD now, and what waiting really buys</h2>
+				<p>
+					This is the policy trade. Fast approval has operational and political
+					risk. Waiting has operational and political risk too. The difference is
+					that waiting keeps the upside frozen while the clock keeps moving.
+				</p>
+			</div>
+
+			<div class="decision-grid">
+				<article class="decision-card decision-card--go">
+					<span class="decision-card__kicker">Allow Today</span>
+					<h3>What they win</h3>
+					<ul class="decision-list">
+						<li>
+							Unlock
+							<strong id="decision-allow-annual">
+								{formatLives.format(initialTotal)} lives/yr
+							</strong>
+							of illustrative upside under <span id="decision-allow-scope">{initialScope.label}</span>.
+						</li>
+						<li>
+							Stop the delay clock adding about
+							<strong id="decision-allow-daily">
+								{formatLives.format(initialDaily)} lives/day
+							</strong>
+							under the current assumptions.
+						</li>
+						<li>
+							Move from theory and lobbying to monitored deployment, reporting,
+							and real European operating data.
+						</li>
+						<li>
+							Show Europe can prioritise measurable safety upside over procedural
+							stall.
+						</li>
+					</ul>
+				</article>
+
+				<article class="decision-card decision-card--go">
+					<span class="decision-card__kicker">Allow Today</span>
+					<h3>What they risk</h3>
+					<ul class="decision-list">
+						<li>Owning the public fallout from any visible failure after approval.</li>
+						<li>
+							Needing strict audit, reporting, rollback, and operational guardrail
+							rules from day one.
+						</li>
+						<li>
+							Inviting immediate scrutiny from regulators, media, and incumbent
+							industry players.
+						</li>
+					</ul>
+				</article>
+
+				<article class="decision-card decision-card--wait">
+					<span class="decision-card__kicker">Keep Waiting</span>
+					<h3>What they think they win</h3>
+					<ul class="decision-list">
+						<li>More committee time, more institutional cover, less short-term exposure.</li>
+						<li>Extra time to refine conditions, reporting formats, and liability posture.</li>
+						<li>
+							One more buffer against criticism from groups that do not want rapid
+							deployment.
+						</li>
+					</ul>
+				</article>
+
+				<article class="decision-card decision-card--wait">
+					<span class="decision-card__kicker">Keep Waiting</span>
+					<h3>What they risk</h3>
+					<ul class="decision-list">
+						<li>
+							Leaving
+							<strong id="decision-wait-annual">
+								{formatLives.format(initialTotal)} lives/yr
+							</strong>
+							of illustrative upside frozen under <span id="decision-wait-scope">{initialScope.label}</span>.
+						</li>
+						<li>
+							Adding about
+							<strong id="decision-wait-daily">
+								{formatLives.format(initialDaily)} lives/day
+							</strong>
+							to the live delay clock while nothing changes on the road.
+						</li>
+						<li>
+							Surrendering operational learning to markets that move earlier while
+							Europe keeps arguing in the abstract.
+						</li>
+						<li>
+							Making delay itself the story, instead of the quality of the safety
+							rules.
+						</li>
+					</ul>
+				</article>
+			</div>
+		</section>
+
+		<section class="panel">
+			<div class="section-head">
 				<p class="eyebrow">Country ladder</p>
 				<h2>Where the frozen safety upside looks largest</h2>
 				<p>
@@ -509,6 +609,12 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		const approvalScopeValue = document.querySelector("#approval-scope-value");
 		const annualUpside = document.querySelector("#annual-upside");
 		const annualUpsideScope = document.querySelector("#annual-upside-scope");
+		const decisionAllowAnnual = document.querySelector("#decision-allow-annual");
+		const decisionAllowDaily = document.querySelector("#decision-allow-daily");
+		const decisionAllowScope = document.querySelector("#decision-allow-scope");
+		const decisionWaitAnnual = document.querySelector("#decision-wait-annual");
+		const decisionWaitDaily = document.querySelector("#decision-wait-daily");
+		const decisionWaitScope = document.querySelector("#decision-wait-scope");
 		const sinceProcess = document.querySelector("#since-process");
 		const sinceApproval = document.querySelector("#since-approval");
 		const approvalDays = document.querySelector("#approval-days");
@@ -519,7 +625,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		const counterWall = document.querySelector(".counter-wall");
 		const impactStage = document.querySelector("#impact-stage");
 		const impactStageStamp = document.querySelector("#impact-stage-stamp");
-		const impactDaysPerLife = document.querySelector("#impact-days-per-life");
+		const impactNextTimer = document.querySelector("#impact-next-timer");
 		const realtimeProcessCounter = document.querySelector("#realtime-process-counter");
 		const realtimeApprovalCounter = document.querySelector("#realtime-approval-counter");
 		const realtimeRate = document.querySelector("#realtime-rate");
@@ -560,6 +666,26 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 		const elapsedSeconds = (from) =>
 			Math.max(0, (Date.now() - Date.parse(from)) / 1000);
+
+		const formatCountdown = (secondsRemaining) => {
+			if (!Number.isFinite(secondsRemaining) || secondsRemaining <= 0) {
+				return "now";
+			}
+
+			const days = Math.floor(secondsRemaining / 86400);
+			const hours = Math.floor((secondsRemaining % 86400) / 3600);
+			const minutes = Math.floor((secondsRemaining % 3600) / 60);
+
+			if (days >= 1) {
+				return `${days}d ${hours}h`;
+			}
+
+			if (hours >= 1) {
+				return `${hours}h ${minutes}m`;
+			}
+
+			return `${Math.max(1, minutes)}m`;
+		};
 
 		const computeScopeResults = (baseScenario) =>
 			fleetScopes.map((scope) => {
@@ -624,6 +750,18 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			}, 900);
 		};
 
+		const updateDecisionCards = (total) => {
+			const daily = total / 365;
+			const activeScope = scopesByKey[currentScopeKey] ?? fleetScopes[fleetScopes.length - 1];
+
+			decisionAllowAnnual.textContent = `${lives.format(total)} lives/yr`;
+			decisionAllowDaily.textContent = `${lives.format(daily)} lives/day`;
+			decisionAllowScope.textContent = activeScope.label;
+			decisionWaitAnnual.textContent = `${lives.format(total)} lives/yr`;
+			decisionWaitDaily.textContent = `${lives.format(daily)} lives/day`;
+			decisionWaitScope.textContent = activeScope.label;
+		};
+
 		const updateRealtimeCounters = () => {
 			const approvalSeconds = elapsedSeconds(approvalMoment);
 			const processSeconds = elapsedSeconds(processStartMoment);
@@ -631,15 +769,18 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			const approvalCount = annualPerSecond * approvalSeconds;
 			const processCount = annualPerSecond * processSeconds;
 			const processWhole = Math.floor(processCount);
+			const secondsUntilNextImpact =
+				annualPerSecond > 0
+					? (processWhole + 1 - processCount) / annualPerSecond
+					: Number.POSITIVE_INFINITY;
 
 			realtimeApprovalCounter.textContent = lives.format(approvalCount);
 			realtimeProcessCounter.textContent = lives.format(processCount);
 			realtimeRate.textContent = lives.format(annualUpsideValue / 365);
+			impactNextTimer.textContent = formatCountdown(secondsUntilNextImpact);
 			sinceApproval.innerHTML = `${lives.format(approvalCount)} <span class="unit">lives</span>`;
 			sinceProcess.innerHTML = `${lives.format(processCount)} <span class="unit">lives</span>`;
 			approvalDays.textContent = whole.format(Math.floor(approvalSeconds / 86400));
-			impactDaysPerLife.textContent =
-				annualUpsideValue > 0 ? lives.format(365 / annualUpsideValue) : "0.0";
 
 			if (lastProcessWhole !== null && processWhole > lastProcessWhole) {
 				triggerImpact(processWhole - lastProcessWhole);
@@ -676,6 +817,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			annualUpsideValue = total;
 
 			updateScopeCards(scopeResults);
+			updateDecisionCards(total);
 			annualUpside.innerHTML = `${lives.format(total)} <span class="unit">lives/yr</span>`;
 			leaderCountry.textContent = leader.name;
 			leaderValue.textContent = lives.format(leader.estimatedLivesPerYear);
