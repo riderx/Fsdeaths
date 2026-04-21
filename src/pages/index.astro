@@ -98,6 +98,25 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				<strong class="counter-wall__value" id="realtime-process-counter">
 					{formatLives.format(processInitial)}
 				</strong>
+				<div class="impact-stage" id="impact-stage" aria-hidden="true">
+					<div class="impact-stage__road"></div>
+					<div class="impact-stage__barrier"></div>
+					<div class="impact-stage__burst">Impact</div>
+					<div class="impact-stage__stamp" id="impact-stage-stamp">+1</div>
+					<div class="impact-stage__car">
+						<span class="impact-stage__roof"></span>
+						<span class="impact-stage__wheel impact-stage__wheel--rear"></span>
+						<span class="impact-stage__wheel impact-stage__wheel--front"></span>
+					</div>
+				</div>
+				<p class="impact-stage__hint">
+					Non-graphic trigger on each whole-number increase in the live count.
+					At the current rate: about
+					<span id="impact-days-per-life">
+						{formatLives.format(initialTotal > 0 ? 365 / initialTotal : 0)}
+					</span>
+					days per added life.
+				</p>
 				<p class="counter-wall__caption">
 					Approximate counter from October 2024 under the current slider values
 					and <span id="selected-scope-copy">{initialScope.label}</span>.
@@ -497,6 +516,10 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		const leaderValue = document.querySelector("#leader-value");
 		const leaderScope = document.querySelector("#leader-scope");
 		const countryRows = document.querySelector("#country-rows");
+		const counterWall = document.querySelector(".counter-wall");
+		const impactStage = document.querySelector("#impact-stage");
+		const impactStageStamp = document.querySelector("#impact-stage-stamp");
+		const impactDaysPerLife = document.querySelector("#impact-days-per-life");
 		const realtimeProcessCounter = document.querySelector("#realtime-process-counter");
 		const realtimeApprovalCounter = document.querySelector("#realtime-approval-counter");
 		const realtimeRate = document.querySelector("#realtime-rate");
@@ -514,6 +537,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		const secondsPerYear = 365 * 24 * 60 * 60;
 		let annualUpsideValue = 0;
 		let currentScopeKey = defaultScenario.approvalScopeKey;
+		let lastProcessWhole = null;
+		let impactResetTimer;
 
 		const compute = (country, scenario) => {
 			const scope = scopesByKey[scenario.approvalScopeKey] ?? fleetScopes[fleetScopes.length - 1];
@@ -582,12 +607,30 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			});
 		};
 
+		const triggerImpact = (countDelta) => {
+			const wholeDelta = Math.max(1, Math.floor(countDelta));
+
+			impactStageStamp.textContent = `+${wholeDelta}`;
+			impactStage.classList.remove("is-live");
+			counterWall.classList.remove("is-live");
+			void impactStage.offsetWidth;
+			impactStage.classList.add("is-live");
+			counterWall.classList.add("is-live");
+
+			window.clearTimeout(impactResetTimer);
+			impactResetTimer = window.setTimeout(() => {
+				impactStage.classList.remove("is-live");
+				counterWall.classList.remove("is-live");
+			}, 900);
+		};
+
 		const updateRealtimeCounters = () => {
 			const approvalSeconds = elapsedSeconds(approvalMoment);
 			const processSeconds = elapsedSeconds(processStartMoment);
 			const annualPerSecond = annualUpsideValue / secondsPerYear;
 			const approvalCount = annualPerSecond * approvalSeconds;
 			const processCount = annualPerSecond * processSeconds;
+			const processWhole = Math.floor(processCount);
 
 			realtimeApprovalCounter.textContent = lives.format(approvalCount);
 			realtimeProcessCounter.textContent = lives.format(processCount);
@@ -595,6 +638,14 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			sinceApproval.innerHTML = `${lives.format(approvalCount)} <span class="unit">lives</span>`;
 			sinceProcess.innerHTML = `${lives.format(processCount)} <span class="unit">lives</span>`;
 			approvalDays.textContent = whole.format(Math.floor(approvalSeconds / 86400));
+			impactDaysPerLife.textContent =
+				annualUpsideValue > 0 ? lives.format(365 / annualUpsideValue) : "0.0";
+
+			if (lastProcessWhole !== null && processWhole > lastProcessWhole) {
+				triggerImpact(processWhole - lastProcessWhole);
+			}
+
+			lastProcessWhole = processWhole;
 		};
 
 		const statusLabel = (approval) =>
