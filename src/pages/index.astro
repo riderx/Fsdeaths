@@ -1,0 +1,503 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+	APPROVED_MEMBER_STATES,
+	DUTCH_APPROVAL_DATE,
+	DUTCH_APPROVAL_MOMENT,
+	EU_ROAD_DEATHS_2025,
+	PROCESS_STARTED_APPROX,
+	PROCESS_STARTED_MOMENT,
+	SITE_DOMAIN,
+	SITE_DESCRIPTION,
+	SITE_TITLE,
+	TODAY_ISO,
+	countries,
+	daysBetween,
+	defaultScenario,
+	institutionTrack,
+	methodology,
+	rankCountries,
+	sources,
+	sumEstimatedLives,
+	timeline,
+	type CountryOpportunity,
+} from "../data/eu";
+
+const initialRanking = rankCountries(defaultScenario);
+const initialTotal = sumEstimatedLives(initialRanking);
+const approvalWaitDays = daysBetween(DUTCH_APPROVAL_DATE, TODAY_ISO);
+const processDays = daysBetween(PROCESS_STARTED_APPROX, TODAY_ISO);
+const pendingMemberStates = countries.length - APPROVED_MEMBER_STATES;
+const initialLeader = initialRanking[0];
+const approvalInitial = (initialTotal / 365) * approvalWaitDays;
+const processInitial = (initialTotal / 365) * processDays;
+
+const formatWhole = new Intl.NumberFormat("en-US");
+const formatLives = new Intl.NumberFormat("en-US", {
+	minimumFractionDigits: 1,
+	maximumFractionDigits: 1,
+});
+
+const renderStatusLabel = (row: CountryOpportunity) =>
+	row.approval === "national-approval" ? "Live in NL" : "Pending EU vote";
+
+const renderStatusClass = (row: CountryOpportunity) =>
+	row.approval === "national-approval"
+		? "status-badge status-badge--live"
+		: "status-badge status-badge--pending";
+---
+
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<main class="page-shell">
+		<section class="panel hero hero--clock">
+			<div class="hero__copy">
+				<p class="eyebrow">{SITE_TITLE} • {SITE_DOMAIN}</p>
+				<h1>
+					The clock is
+					<span class="accent">still running.</span>
+				</h1>
+				<p class="lead">
+					RDW approved Tesla FSD Supervised in the Netherlands on 10 April 2026
+					after roughly 18 months of testing. RDW also says EU-wide validity
+					still needs a European Commission step and a member-state vote. This
+					page turns that delay into a live scenario clock with visible,
+					editable assumptions instead of hiding the cost inside policy prose.
+				</p>
+				<div class="hero__warning">
+					This is an institutional accountability tracker, not a legal-liability
+					board. The live numbers below are scenario estimates, not verified body
+					counts. They are there to make delay legible, not to fabricate blame.
+				</div>
+			</div>
+
+			<div class="counter-wall">
+				<div class="counter-wall__live">
+					<span class="counter-wall__dot"></span>
+					<span>Live scenario counter</span>
+				</div>
+				<p class="counter-wall__eyebrow">
+					Illustrative lives left on the table since the RDW/Tesla testing
+					programme began
+				</p>
+				<strong class="counter-wall__value" id="realtime-process-counter">
+					{formatLives.format(processInitial)}
+				</strong>
+				<p class="counter-wall__caption">
+					Approximate counter from October 2024 under the current slider values.
+				</p>
+				<div class="counter-wall__rail">
+					<div class="counter-tile">
+						<span class="counter-tile__label">Since Dutch approval</span>
+						<strong class="counter-tile__value" id="realtime-approval-counter">
+							{formatLives.format(approvalInitial)}
+						</strong>
+					</div>
+					<div class="counter-tile">
+						<span class="counter-tile__label">Current rate</span>
+						<strong class="counter-tile__value" id="realtime-rate">
+							{formatLives.format(initialTotal / 365)}
+						</strong>
+					</div>
+					<div class="counter-tile">
+						<span class="counter-tile__label">Current bottleneck</span>
+						<strong class="counter-tile__value">
+							{pendingMemberStates}/27
+						</strong>
+					</div>
+					<div class="counter-tile">
+						<span class="counter-tile__label">EU road deaths in 2025</span>
+						<strong class="counter-tile__value">
+							{formatWhole.format(EU_ROAD_DEATHS_2025)}
+						</strong>
+					</div>
+				</div>
+				<p class="counter-wall__footnote">
+					RDW says national validity started on 10 April 2026. RDW also says
+					EU-wide validity still needs a Commission step and a member-state vote.
+				</p>
+			</div>
+		</section>
+
+		<section class="panel">
+			<div class="section-head">
+				<p class="eyebrow">Scenario model</p>
+				<h2>The upside you freeze when you wait</h2>
+				<p>
+					The controls below are intentionally exposed. Change the assumed Tesla
+					share inside the BEV fleet and the assumed fatal-risk reduction to see
+					how the country ladder moves.
+				</p>
+			</div>
+
+			<div class="controls">
+				<div class="control">
+					<label for="tesla-share">
+						<span class="control__head">
+							<span>Tesla share inside the BEV fleet</span>
+							<strong id="tesla-share-value">
+								{defaultScenario.teslaShareWithinBev}%
+							</strong>
+						</span>
+						<input
+							id="tesla-share"
+							type="range"
+							min="5"
+							max="40"
+							step="1"
+							value={defaultScenario.teslaShareWithinBev}
+						/>
+						<small>
+							Proxy input. The site uses official BEV fleet share by country, then
+							applies this adjustable Tesla slice inside that BEV fleet.
+						</small>
+					</label>
+				</div>
+
+				<div class="control">
+					<label for="safety-gain">
+						<span class="control__head">
+							<span>Assumed fatal-risk reduction</span>
+							<strong id="safety-gain-value">{defaultScenario.safetyGain}%</strong>
+						</span>
+						<input
+							id="safety-gain"
+							type="range"
+							min="10"
+							max="60"
+							step="1"
+							value={defaultScenario.safetyGain}
+						/>
+						<small>
+							Scenario input, not a clinical certainty. It represents the share of
+							fatal outcomes avoided within the currently addressable slice of the
+							fleet.
+						</small>
+					</label>
+				</div>
+			</div>
+
+			<div class="formula">
+				<strong>Formula:</strong>
+				<code>
+					2023 road deaths × 2024 BEV fleet share × Tesla share inside BEVs ×
+					assumed fatal-risk reduction
+				</code>
+			</div>
+
+			<div class="summary-grid">
+				<article class="score-card">
+					<span class="score-card__label">Illustrative annual upside</span>
+					<strong class="score-card__value" id="annual-upside">
+						{formatLives.format(initialTotal)}
+						<span class="unit">lives/yr</span>
+					</strong>
+					<p>Across the EU under the default scenario shown above.</p>
+				</article>
+				<article class="score-card">
+					<span class="score-card__label">Since testing began</span>
+					<strong class="score-card__value" id="since-process">
+						{formatLives.format(processInitial)}
+						<span class="unit">lives</span>
+					</strong>
+					<p>Approximate cumulative upside since the RDW testing window began.</p>
+				</article>
+				<article class="score-card">
+					<span class="score-card__label">Since Dutch approval</span>
+					<strong class="score-card__value" id="since-approval">
+						{formatLives.format(approvalInitial)}
+						<span class="unit">lives</span>
+					</strong>
+					<p>
+						Over the <span id="approval-days">{approvalWaitDays}</span> days since
+						10 April 2026.
+					</p>
+				</article>
+				<article class="score-card">
+					<span class="score-card__label">Largest frozen opportunity</span>
+					<strong class="score-card__value" id="leader-country">
+						{initialLeader.name}
+					</strong>
+					<p>
+						<span id="leader-value">{formatLives.format(initialLeader.estimatedLivesPerYear)}</span>
+						illustrative lives/year under the default scenario.
+					</p>
+				</article>
+			</div>
+		</section>
+
+		<section class="panel">
+			<div class="section-head">
+				<p class="eyebrow">Country ladder</p>
+				<h2>Where the frozen safety upside looks largest</h2>
+				<p>
+					This is a country-by-country ranking of the estimated annual safety
+					upside currently left on the table. It is based on the latest full
+					Eurostat fatality dataset plus 2024 BEV fleet share data.
+				</p>
+			</div>
+
+			<table class="country-ladder">
+				<caption>
+					The Netherlands is marked separately because RDW says national approval
+					is already live there. All other rows remain pending the EU-wide step
+					RDW describes.
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col">Rank</th>
+						<th scope="col">Country</th>
+						<th scope="col">Frozen annual upside</th>
+						<th scope="col">Context</th>
+						<th scope="col">Status</th>
+					</tr>
+				</thead>
+				<tbody id="country-rows">
+					{
+						initialRanking.map((row, index) => (
+							<tr>
+								<td class="rank-cell">#{index + 1}</td>
+								<td class="country-cell">
+									<strong>{row.name}</strong>
+									<span>{row.leadBody}</span>
+								</td>
+								<td>
+									<span class="metric__value">
+										{formatLives.format(row.estimatedLivesPerYear)}
+										<span class="metric__unit">lives/yr</span>
+									</span>
+									<span class="metric__sub">
+										Addressable fleet share:
+										{formatLives.format(row.addressableFleetShare * 100)}%
+									</span>
+								</td>
+								<td>
+									<span class="metric__value">
+										{formatWhole.format(row.fatalities2023)}
+										<span class="metric__unit">deaths</span>
+									</span>
+									<span class="metric__sub">
+										{formatLives.format(row.bevFleetShare2024)}% BEV fleet share in
+										2024
+									</span>
+								</td>
+								<td>
+									<span class={renderStatusClass(row)}>
+										{renderStatusLabel(row)}
+									</span>
+								</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+			<p class="footnote">
+				Using 2023 country fatality counts is deliberate: it is the latest full
+				Eurostat country dataset. 2024 and 2025 Commission releases are newer
+				but still preliminary at country detail level.
+			</p>
+		</section>
+
+		<section class="panel">
+			<div class="section-head">
+				<p class="eyebrow">Institution map</p>
+				<h2>Where responsibility actually sits today</h2>
+				<p>
+					The public argument gets weaker when it blurs the process. RDW's own
+					text makes the bottleneck legible: the Dutch authority moved, the EU
+					wide route still needs Commission handling and a member-state vote.
+				</p>
+			</div>
+
+			<div class="institutions">
+				{
+					institutionTrack.map((item) => (
+						<article class="institution-card">
+							<span class="institution-card__stage">{item.stage}</span>
+							<h3>{item.title}</h3>
+							<p>{item.body}</p>
+						</article>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="panel">
+			<div class="section-head">
+				<p class="eyebrow">Timeline</p>
+				<h2>How the clock has moved so far</h2>
+				<p>
+					The sequence matters. RDW's testing window was long, the Dutch approval
+					finally landed, and the EU-wide process still has not crossed the
+					last-mile institutional gates.
+				</p>
+			</div>
+
+			<div class="timeline">
+				{
+					timeline.map((item) => (
+						<article class="timeline__item">
+							<span class="timeline__date">{item.date}</span>
+							<h3>{item.title}</h3>
+							<p>{item.body}</p>
+						</article>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="panel method-grid">
+			<div class="method-card">
+				<span class="method-card__kicker">Method</span>
+				<h2 class="method__title">What the model is and what it is not</h2>
+				<ul>
+					{methodology.map((item) => <li>{item}</li>)}
+				</ul>
+			</div>
+
+			<div class="method-card">
+				<span class="method-card__kicker">Sources</span>
+				<h2 class="sources__title">Official references</h2>
+				<ul class="sources-list">
+					{
+						sources.map((source) => (
+							<li>
+								<a class="source-link" href={source.href}>
+									{source.label}
+								</a>
+								<p>{source.note}</p>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</section>
+	</main>
+
+	<script
+		is:inline
+		define:vars={{
+			countries,
+			defaultScenario,
+			approvalMoment: DUTCH_APPROVAL_MOMENT,
+			processStartMoment: PROCESS_STARTED_MOMENT,
+		}}
+	>
+		const teslaShareInput = document.querySelector("#tesla-share");
+		const safetyGainInput = document.querySelector("#safety-gain");
+		const teslaShareValue = document.querySelector("#tesla-share-value");
+		const safetyGainValue = document.querySelector("#safety-gain-value");
+		const annualUpside = document.querySelector("#annual-upside");
+		const sinceProcess = document.querySelector("#since-process");
+		const sinceApproval = document.querySelector("#since-approval");
+		const approvalDays = document.querySelector("#approval-days");
+		const leaderCountry = document.querySelector("#leader-country");
+		const leaderValue = document.querySelector("#leader-value");
+		const countryRows = document.querySelector("#country-rows");
+		const realtimeProcessCounter = document.querySelector("#realtime-process-counter");
+		const realtimeApprovalCounter = document.querySelector("#realtime-approval-counter");
+		const realtimeRate = document.querySelector("#realtime-rate");
+
+		const whole = new Intl.NumberFormat("en-US");
+		const lives = new Intl.NumberFormat("en-US", {
+			minimumFractionDigits: 1,
+			maximumFractionDigits: 1,
+		});
+
+		const secondsPerYear = 365 * 24 * 60 * 60;
+		let annualUpsideValue = 0;
+
+		const compute = (country, scenario) => {
+			const addressableFleetShare =
+				(country.bevFleetShare2024 / 100) * (scenario.teslaShareWithinBev / 100);
+			const estimatedLivesPerYear =
+				country.fatalities2023 *
+				addressableFleetShare *
+				(scenario.safetyGain / 100);
+
+			return {
+				...country,
+				addressableFleetShare,
+				estimatedLivesPerYear,
+			};
+		};
+
+		const elapsedSeconds = (from) =>
+			Math.max(0, (Date.now() - Date.parse(from)) / 1000);
+
+		const updateRealtimeCounters = () => {
+			const approvalSeconds = elapsedSeconds(approvalMoment);
+			const processSeconds = elapsedSeconds(processStartMoment);
+			const annualPerSecond = annualUpsideValue / secondsPerYear;
+			const approvalCount = annualPerSecond * approvalSeconds;
+			const processCount = annualPerSecond * processSeconds;
+
+			realtimeApprovalCounter.textContent = lives.format(approvalCount);
+			realtimeProcessCounter.textContent = lives.format(processCount);
+			realtimeRate.textContent = lives.format(annualUpsideValue / 365);
+			sinceApproval.innerHTML = `${lives.format(approvalCount)} <span class="unit">lives</span>`;
+			sinceProcess.innerHTML = `${lives.format(processCount)} <span class="unit">lives</span>`;
+			approvalDays.textContent = whole.format(Math.floor(approvalSeconds / 86400));
+		};
+
+		const statusLabel = (approval) =>
+			approval === "national-approval" ? "Live in NL" : "Pending EU vote";
+
+		const statusClass = (approval) =>
+			approval === "national-approval"
+				? "status-badge status-badge--live"
+				: "status-badge status-badge--pending";
+
+		const render = () => {
+			const scenario = {
+				teslaShareWithinBev: Number(teslaShareInput.value),
+				safetyGain: Number(safetyGainInput.value),
+			};
+
+			teslaShareValue.textContent = `${scenario.teslaShareWithinBev}%`;
+			safetyGainValue.textContent = `${scenario.safetyGain}%`;
+
+			const rows = countries
+				.map((country) => compute(country, scenario))
+				.sort((left, right) => right.estimatedLivesPerYear - left.estimatedLivesPerYear);
+
+			const total = rows.reduce((sum, row) => sum + row.estimatedLivesPerYear, 0);
+			const leader = rows[0];
+			annualUpsideValue = total;
+
+			annualUpside.innerHTML = `${lives.format(total)} <span class="unit">lives/yr</span>`;
+			leaderCountry.textContent = leader.name;
+			leaderValue.textContent = lives.format(leader.estimatedLivesPerYear);
+			updateRealtimeCounters();
+
+			countryRows.innerHTML = rows
+				.map(
+					(row, index) => `
+						<tr>
+							<td class="rank-cell">#${index + 1}</td>
+							<td class="country-cell">
+								<strong>${row.name}</strong>
+								<span>${row.leadBody}</span>
+							</td>
+							<td>
+								<span class="metric__value">${lives.format(row.estimatedLivesPerYear)} <span class="metric__unit">lives/yr</span></span>
+								<span class="metric__sub">Addressable fleet share: ${lives.format(row.addressableFleetShare * 100)}%</span>
+							</td>
+							<td>
+								<span class="metric__value">${whole.format(row.fatalities2023)} <span class="metric__unit">deaths</span></span>
+								<span class="metric__sub">${lives.format(row.bevFleetShare2024)}% BEV fleet share in 2024</span>
+							</td>
+							<td>
+								<span class="${statusClass(row.approval)}">${statusLabel(row.approval)}</span>
+							</td>
+						</tr>
+					`,
+				)
+				.join("");
+		};
+
+		teslaShareInput.addEventListener("input", render);
+		safetyGainInput.addEventListener("input", render);
+		render();
+		window.setInterval(updateRealtimeCounters, 250);
+	</script>
+</Layout>
