@@ -55,11 +55,11 @@
 
   <rect x="780" y="76" width="332" height="220" rx="24" fill="url(#card)" stroke="#FF6B2C" stroke-opacity="0.25"/>
   <text x="808" y="118" fill="#FFD166" font-family="Arial" font-size="20" font-weight="800" letter-spacing="2.7">LIVE SCENARIO COUNTER</text>
-  <text x="808" y="150" fill="#D0B79A" font-family="Georgia" font-size="19">Illustrative lives/year frozen</text>
-  <text x="808" y="176" fill="#D0B79A" font-family="Georgia" font-size="19">under the broad HW3 + HW4</text>
-  <text x="808" y="202" fill="#D0B79A" font-family="Georgia" font-size="19">policy scope</text>
-  <text x="804" y="278" fill="#FFF0E3" font-family="Arial" font-size="112" font-weight="900" letter-spacing="-6">25.2</text>
-  <text x="812" y="298" fill="#FFD166" font-family="Arial" font-size="26" font-weight="800" letter-spacing="1.6">LIVES/YR</text>
+  <text x="808" y="146" fill="#D0B79A" font-family="Georgia" font-size="18">Illustrative lives/year frozen</text>
+  <text x="808" y="171" fill="#D0B79A" font-family="Georgia" font-size="18">under the broad HW3 + HW4</text>
+  <text x="808" y="196" fill="#D0B79A" font-family="Georgia" font-size="18">policy scope</text>
+  <text x="804" y="272" fill="#FFF0E3" font-family="Arial" font-size="94" font-weight="900" letter-spacing="-5">25.2</text>
+  <text x="1000" y="272" fill="#FFD166" font-family="Arial" font-size="24" font-weight="800" letter-spacing="1.4">LIVES/YR</text>
 
   <rect x="780" y="320" width="332" height="220" rx="24" fill="url(#card)" stroke="#FFB780" stroke-opacity="0.16"/>
   <text x="808" y="362" fill="#FFD166" font-family="Arial" font-size="20" font-weight="800" letter-spacing="2.7">NEXT +1</text>
