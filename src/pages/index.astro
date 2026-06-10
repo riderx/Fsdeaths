@@ -68,7 +68,7 @@ const formatLives = new Intl.NumberFormat("en-US", {
 });
 
 const renderStatusLabel = (row: CountryOpportunity) =>
-	row.approval === "national-approval" ? "Live in NL" : "Pending EU vote";
+	row.approval === "national-approval" ? "National approval" : "Pending EU vote";
 
 const renderStatusClass = (row: CountryOpportunity) =>
 	row.approval === "national-approval"
@@ -87,11 +87,12 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				</h1>
 				<p class="lead">
 					RDW approved Tesla FSD Supervised in the Netherlands on 10 April 2026
-					after roughly 18 months of testing. RDW also says EU-wide validity
-					still needs a European Commission step and a member-state vote. If you
-					sit anywhere in that chain, this page is addressed to you. The
-					bottleneck is political now, so the cost of waiting should be visible
-					in public, not buried inside committee language.
+					after roughly 18 months of testing. Lithuania, Estonia, Denmark, and
+					now Belgium have followed with national approvals, but RDW still says
+					EU-wide validity needs a European Commission step and a member-state
+					vote. If you sit anywhere in that chain, this page is addressed to you.
+					The bottleneck is political now, so the cost of waiting should be
+					visible in public, not buried inside committee language.
 				</p>
 				<div class="hero__warning">
 					This is an institutional accountability tracker, not a legal-liability
@@ -106,8 +107,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					<span>Live scenario counter</span>
 				</div>
 				<p class="counter-wall__eyebrow">
-					Illustrative lives left on the table while Europe keeps the approval
-					chain blocked
+					Illustrative lives left on the table while Europe keeps the EU-wide
+					approval chain blocked
 				</p>
 				<strong class="counter-wall__value" id="realtime-process-counter">
 					{formatLives.format(processInitial)}
@@ -147,7 +148,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 						</strong>
 					</div>
 					<div class="counter-tile">
-						<span class="counter-tile__label">Current bottleneck</span>
+						<span class="counter-tile__label">Pending EU states</span>
 						<strong class="counter-tile__value">
 							{pendingMemberStates}/27
 						</strong>
@@ -160,8 +161,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					</div>
 				</div>
 				<p class="counter-wall__footnote">
-					RDW says national validity started on 10 April 2026. RDW also says
-					EU-wide validity still needs a Commission step and a member-state vote.
+					Five national approvals are now live. RDW still says EU-wide validity
+					needs a Commission step and a member-state vote.
 				</p>
 			</div>
 		</section>
@@ -353,18 +354,19 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 			<div class="regulation-grid">
 				<article class="regulation-card">
-					<span class="regulation-card__label">Netherlands now</span>
-					<h3>The Dutch approval is live, but it still looks HW4-first</h3>
+					<span class="regulation-card__label">Five countries now</span>
+					<h3>National approvals are live, but still look HW4-first</h3>
 					<p>
 						Tesla's own subscription support says the FSD package is for both
 						HW3 and HW4 vehicles and lists the Netherlands as a live market, yet
 						the same support text says rollout begins with HW4 and that the
 						feature is currently only available on Full Self-Driving computer
-						4.0.
+						4.0. Since April, Lithuania, Estonia, Denmark, and Belgium have also
+						moved nationally, while EU-wide validity still waits.
 					</p>
 					<ul class="regulation-card__list">
-						<li>The Netherlands moved first, but not broadly enough.</li>
-						<li>That leaves the larger HW3-capable installed base outside even after approval.</li>
+						<li>The Netherlands moved first; four more countries have now followed.</li>
+						<li>A HW4-first rollout still leaves the larger HW3-capable installed base outside after approval.</li>
 						<li>This page treats HW4-only as an opening step, not the real safety unlock.</li>
 					</ul>
 				</article>
@@ -537,15 +539,15 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		<section class="panel">
 			<div class="section-head">
 				<p class="eyebrow">Committee delay</p>
-				<h2>The reported EU schedule still uses May for a presentation and June for the earliest vote window</h2>
+				<h2>The EU-wide path still waits for the Commission step and member-state vote</h2>
 				<p>
 					RDW already moved on 10 April 2026 after roughly 18 months of testing.
-					RDW also says the remaining EU-wide path is Commission handling plus a
-					member-state vote. Reporting published on 17 April 2026, citing a
-					screenshot of a European Commission draft TCMV agenda, says the
-					5 May 2026 meeting is only a Netherlands Article 39 update slot, not
-					the vote itself. If that schedule holds, the delay is no longer a
-					technical unknown. It is a political choice.
+					Lithuania, Estonia, Denmark, and Belgium have since moved nationally.
+					RDW still says the remaining EU-wide path is Commission handling plus
+					a member-state vote. Reporting published on 17 April 2026, citing a
+					screenshot of a European Commission draft TCMV agenda, put the
+					5 May 2026 meeting as a Netherlands Article 39 update slot, not the
+					vote itself, with 30 June 2026 as the next reported vote window.
 				</p>
 			</div>
 
@@ -557,7 +559,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				</article>
 				<article class="committee-card">
 					<span class="committee-card__label">5 May 2026</span>
-					<strong class="committee-card__value">Reported next meeting</strong>
+					<strong class="committee-card__value">Reported presentation slot</strong>
 					<p>
 						The reported draft agenda gives the Netherlands an Article 39 update
 						slot only, not a vote, after a
@@ -574,7 +576,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					</p>
 				</article>
 				<article class="committee-card committee-card--hot">
-					<span class="committee-card__label">Frozen by June</span>
+					<span class="committee-card__label">Frozen by 30 Jun</span>
 					<strong class="committee-card__value" id="committee-frozen">
 						{formatLives.format(initialReportedVoteDelay)}
 						<span class="unit">lives</span>
@@ -592,6 +594,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				member-state vote, but it does not publish committee dates. The 5 May
 				2026 and 30 June 2026 dates above come from secondary reporting that
 				cites a screenshot attributed to a European Commission draft agenda.
+				National approvals since then do not replace the EU-wide vote.
 			</p>
 		</section>
 
@@ -609,9 +612,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 			<table class="country-ladder">
 				<caption>
-					The Netherlands is marked separately because RDW says national approval
-					is already live there. All other rows remain pending the EU-wide step
-					RDW describes.
+					The Netherlands, Lithuania, Estonia, Denmark, and Belgium are marked
+					separately because national approval is already live there. All other
+					rows remain pending the EU-wide step RDW describes.
 				</caption>
 				<thead>
 					<tr>
@@ -674,8 +677,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				<h2>Where responsibility actually sits today</h2>
 				<p>
 					The public argument gets weaker when it blurs the process. RDW's own
-					text makes the bottleneck legible: the Dutch authority moved, the EU
-					wide route still needs Commission handling and a member-state vote.
+					text makes the bottleneck legible: national authorities can move, and
+					five now have, while the EU-wide route still needs Commission handling
+					and a member-state vote.
 				</p>
 			</div>
 
@@ -698,8 +702,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				<h2>How the clock has moved so far</h2>
 				<p>
 					The sequence matters. RDW's testing window was long, the Dutch approval
-					finally landed, and the EU-wide process still has not crossed the
-					last-mile institutional gates.
+					finally landed, four more national approvals followed, and the EU-wide
+					process still has not crossed the last-mile institutional gates.
 				</p>
 			</div>
 
@@ -957,7 +961,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		};
 
 		const statusLabel = (approval) =>
-			approval === "national-approval" ? "Live in NL" : "Pending EU vote";
+			approval === "national-approval" ? "National approval" : "Pending EU vote";
 
 		const statusClass = (approval) =>
 			approval === "national-approval"

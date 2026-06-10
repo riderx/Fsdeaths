@@ -42,8 +42,8 @@
   <text x="72" y="272" fill="#F7EAD7" font-family="Arial" font-size="74" font-weight="900" letter-spacing="-2">YOUR CLOCK IS</text>
   <text x="72" y="346" fill="#FF9756" font-family="Arial" font-size="78" font-weight="900" letter-spacing="-2.2">STILL RUNNING.</text>
 
-  <text x="74" y="410" fill="#D0B79A" font-family="Georgia" font-size="26">RDW approved FSD in the Netherlands on 10 April 2026.</text>
-  <text x="74" y="446" fill="#D0B79A" font-family="Georgia" font-size="26">Europe still waits for the Commission step and then the vote.</text>
+  <text x="74" y="410" fill="#D0B79A" font-family="Georgia" font-size="26">Five EU countries now have national FSD approval.</text>
+  <text x="74" y="446" fill="#D0B79A" font-family="Georgia" font-size="26">EU-wide validity still waits for the Commission and vote.</text>
 
   <rect x="72" y="492" width="250" height="48" rx="24" fill="#24150F" stroke="#FFB780" stroke-opacity="0.18"/>
   <text x="197" y="523" fill="#FFD166" font-family="Arial" font-size="20" font-weight="800" letter-spacing="1.4" text-anchor="middle">HW4-ONLY IS PARTIAL</text>
