@@ -44,7 +44,7 @@ export const SITE_DOMAIN = "fsddelay.org";
 export const SITE_DESCRIPTION =
 	"A source-backed tracker for Europe's FSD approval bottleneck, with a live scenario clock based on official EU road-safety and EV-stock data.";
 
-export const TODAY_ISO = "2026-06-10";
+export const TODAY_ISO = "2026-09-21";
 export const DUTCH_APPROVAL_DATE = "2026-04-10";
 export const PROCESS_STARTED_APPROX = "2024-10-01";
 export const DUTCH_APPROVAL_MOMENT = "2026-04-10T00:00:00Z";
@@ -53,7 +53,7 @@ export const REPORTED_TCMV_PRESENTATION_DATE = "2026-05-05";
 export const REPORTED_TCMV_EARLIEST_VOTE_DATE = "2026-06-30";
 
 export const EU_ROAD_DEATHS_2025 = 19_400;
-export const APPROVED_MEMBER_STATES = 5;
+export const APPROVED_MEMBER_STATES = 7;
 
 export const defaultScenario: Scenario = {
 	teslaShareWithinBev: 20,
@@ -118,7 +118,7 @@ export const hardwareExplainerCards: HardwareExplainerCard[] = [
 export const countries: CountryRecord[] = [
 	{ code: "BE", name: "Belgium", fatalities2023: 501, fatalitiesPerMillion2023: 43, bevFleetShare2024: 4.981, population2025: 11883495, approval: "national-approval", leadBody: "Flemish approval / Belgian territory" },
 	{ code: "BG", name: "Bulgaria", fatalities2023: 525, fatalitiesPerMillion2023: 81, bevFleetShare2024: 0.572, population2025: 6437360, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
-	{ code: "CZ", name: "Czechia", fatalities2023: 502, fatalitiesPerMillion2023: 46, bevFleetShare2024: 0.547, population2025: 10909500, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
+	{ code: "CZ", name: "Czechia", fatalities2023: 502, fatalitiesPerMillion2023: 46, bevFleetShare2024: 0.547, population2025: 10909500, approval: "national-approval", leadBody: "Czech Ministry of Transport" },
 	{ code: "DK", name: "Denmark", fatalities2023: 162, fatalitiesPerMillion2023: 27, bevFleetShare2024: 12.023, population2025: 5992734, approval: "national-approval", leadBody: "Danish Road Traffic Authority" },
 	{ code: "DE", name: "Germany", fatalities2023: 2839, fatalitiesPerMillion2023: 34, bevFleetShare2024: 3.348, population2025: 83577140, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "EE", name: "Estonia", fatalities2023: 59, fatalitiesPerMillion2023: 43, bevFleetShare2024: 0.933, population2025: 1369995, approval: "national-approval", leadBody: "Estonian Transport Administration" },
@@ -139,14 +139,14 @@ export const countries: CountryRecord[] = [
 	{ code: "PL", name: "Poland", fatalities2023: 1893, fatalitiesPerMillion2023: 52, bevFleetShare2024: 0.271, population2025: 36497495, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "PT", name: "Portugal", fatalities2023: 642, fatalitiesPerMillion2023: 61, bevFleetShare2024: 2.694, population2025: 10749635, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "RO", name: "Romania", fatalities2023: 1545, fatalitiesPerMillion2023: 81, bevFleetShare2024: 0.587, population2025: 19043151, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
-	{ code: "SI", name: "Slovenia", fatalities2023: 82, fatalitiesPerMillion2023: 39, bevFleetShare2024: 1.355, population2025: 2130850, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
+	{ code: "SI", name: "Slovenia", fatalities2023: 82, fatalitiesPerMillion2023: 39, bevFleetShare2024: 1.355, population2025: 2130850, approval: "national-approval", leadBody: "AVP / Slovenian Traffic Safety Agency" },
 	{ code: "SK", name: "Slovakia", fatalities2023: 266, fatalitiesPerMillion2023: 49, bevFleetShare2024: 0.537, population2025: 5419451, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "FI", name: "Finland", fatalities2023: 185, fatalitiesPerMillion2023: 33, bevFleetShare2024: 3.236, population2025: 5635971, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "SE", name: "Sweden", fatalities2023: 229, fatalitiesPerMillion2023: 22, bevFleetShare2024: 7.198, population2025: 10587710, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 ];
 
 export const institutionTrack = [
-	{ stage: "National approvals", title: "Five countries have now moved", body: "The Netherlands moved first, then Lithuania, Estonia, Denmark, and Belgium each accepted or issued national approval for FSD Supervised." },
+	{ stage: "National approvals", title: "Seven countries have now moved", body: "The Netherlands moved first, then Lithuania, Estonia, Denmark, Belgium, Slovenia, and Czechia each accepted or issued national approval for FSD Supervised." },
 	{ stage: "European Commission", title: "The EU-wide step is still upstream", body: "RDW says the application for permission across the entire European Union still needs to be submitted to the European Commission." },
 	{ stage: "Member states", title: "The bottleneck is now a committee vote", body: "RDW says EU-wide validity requires a majority vote from member states in the responsible committee." },
 ];
@@ -159,7 +159,9 @@ export const timeline = [
 	{ date: "29 May 2026", title: "Estonia follows", body: "Estonia recognized the RDW approval, making it the third European country with national approval." },
 	{ date: "9 Jun 2026", title: "Denmark approves", body: "The Danish Road Traffic Authority accepted the Dutch provisional type approval for use in Denmark." },
 	{ date: "10 Jun 2026", title: "Belgium approves", body: "Flemish Mobility Minister Annick De Ridder announced that she signed the approval for FSD Supervised on Belgian roads." },
-	{ date: "After 10 Jun 2026", title: "EU-wide use still blocked", body: "National approvals now cover five countries, but RDW says EU-wide validity still needs Commission handling plus a member-state vote." },
+	{ date: "7 Sep 2026", title: "Slovenia follows", body: "Tesla Europe said FSD Supervised was approved in Slovenia, and AVP later confirmed it had recognized the Dutch provisional type approval." },
+	{ date: "21 Sep 2026", title: "Czechia follows", body: "The Czech Ministry of Transport recognized the Dutch provisional type approval, making Czechia the seventh EU country with national approval." },
+	{ date: "After 21 Sep 2026", title: "EU-wide use still blocked", body: "National approvals now cover seven countries, but RDW says EU-wide validity still needs Commission handling plus a member-state vote." },
 ];
 
 export const methodology = [
@@ -187,6 +189,9 @@ export const sources = [
 	{ label: "Danish Road Traffic Authority: FSD Supervised provisionally approved in Denmark", href: "https://www.fstyr.dk/nyheder/2026/jun/teslas-foererassistentsystem-fsd-supervised-er-foreloebigt-godkendt-i-danmark", note: "The Danish authority says FSD Supervised may now be used in Denmark after it accepted the Dutch provisional type approval." },
 	{ label: "Annick De Ridder on X: Belgium approval announcement", href: "https://x.com/AnnickDeRidder", note: "On 10 June 2026, Flemish Mobility Minister Annick De Ridder announced she had signed the approval for Tesla FSD Supervised on Belgian roads." },
 	{ label: "Annick De Ridder on LinkedIn: Flemish approval reaches Belgian territory", href: "https://nl.linkedin.com/posts/annickderidder_vlaanderen-wil-ruimte-geven-aan-innovatie-activity-7460916906657742848-lsVe", note: "De Ridder previously stated that a Flemish homologation would automatically mean homologation for the whole Belgian territory." },
+	{ label: "Reuters: Slovenia clears Tesla FSD driver assistance", href: "https://www.reuters.com/business/slovenia-clears-teslas-fsd-driver-assistance-ahead-eu-vote-2026-09-08/", note: "Reuters reported Tesla's 7 September 2026 announcement and said Slovenia's Traffic Safety Agency confirmed by email that it had recognized the temporary type approval." },
+	{ label: "GOV.SI: Minister Vrtovec tests FSD after Slovenian approval", href: "https://www.gov.si/novice/2026-09-15-minister-vrtovec-preizkusil-fsd-slovenija-med-vodilnimi-v-evropi-pri-napredni-mobilnosti/", note: "Slovenia's government said the country is the sixth in Europe to allow FSD Supervised on its roads." },
+	{ label: "Czech Ministry of Transport: Czechia recognizes the RDW provisional approval", href: "https://md.gov.cz/Media/Media-a-tiskove-zpravy/Ceska-republika-uznala-prozatimni-schvaleni-system", note: "On 21 September 2026, the ministry said it recognized the Dutch RDW provisional approval under Article 39, making FSD Supervised usable in Czechia under those conditions." },
 	{ label: "EU sets no Tesla FSD vote for May 5, Dutch to brief in 20-minute slot", href: "https://eletric-vehicles.com/tesla/eu-sets-no-tesla-fsd-vote-for-may-5-dutch-to-brief-in-20-minute-slot/", note: "Secondary reporting published 17 April 2026, citing a European Commission draft agenda screenshot, says 5 May 2026 is an Article 39 update slot and that the next scheduled TCMV meeting is 30 June 2026." },
 	{ label: "European Commission: EU road deaths drop by 3% in 2025", href: "https://transport.ec.europa.eu/news-events/news/eu-road-deaths-drop-3-2025-2026-03-24_en", note: "The Commission reported around 19,400 road deaths across the EU in 2025." },
 	{ label: "Eurostat demo_gind", href: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?indic_de=JAN&time=2025", note: "Population on 1 January 2025." },
