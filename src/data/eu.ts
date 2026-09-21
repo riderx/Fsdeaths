@@ -42,7 +42,7 @@ export type CountryOpportunity = CountryRecord & {
 export const SITE_TITLE = "FSD Delay Clock";
 export const SITE_DOMAIN = "fsddelay.org";
 export const SITE_DESCRIPTION =
-	"A source-backed tracker for Europe's FSD approval bottleneck, with a live scenario clock based on official EU road-safety and EV-stock data.";
+	"Europe's FSD approval clock. Seven of 27 EU countries have moved. A vote may come 3 October.";
 
 export const TODAY_ISO = "2026-09-21";
 export const DUTCH_APPROVAL_DATE = "2026-04-10";
@@ -51,8 +51,10 @@ export const DUTCH_APPROVAL_MOMENT = "2026-04-10T00:00:00Z";
 export const PROCESS_STARTED_MOMENT = "2024-10-01T00:00:00Z";
 export const REPORTED_TCMV_PRESENTATION_DATE = "2026-05-05";
 export const REPORTED_TCMV_EARLIEST_VOTE_DATE = "2026-06-30";
+export const REPORTED_TCMV_NEXT_VOTE_DATE = "2026-10-03";
 
 export const EU_ROAD_DEATHS_2025 = 19_400;
+export const EU_MEMBER_STATES = 27;
 export const APPROVED_MEMBER_STATES = 7;
 
 export const defaultScenario: Scenario = {
@@ -66,19 +68,19 @@ export const fleetScopes: FleetScope[] = [
 		key: "latest-only",
 		label: "Newest cars only",
 		coverageShare: 10,
-		explainer: "A narrow political yes that only touches a thin slice of the newest eligible vehicles.",
+		explainer: "A token yes. Newest cars only.",
 	},
 	{
 		key: "hw4",
 		label: "HW4 fleet",
 		coverageShare: 30,
-		explainer: "A broader approval, but still limited to the newer hardware generation.",
+		explainer: "Newer hardware only. Most of the installed base stays out.",
 	},
 	{
 		key: "hw3-hw4",
 		label: "HW3 + HW4 fleet",
 		coverageShare: 90,
-		explainer: "The real step-change: approval reaches most of the FSD-capable fleet rather than a token slice.",
+		explainer: "The real unlock. Most of the FSD-capable fleet is in.",
 	},
 ];
 
@@ -86,31 +88,31 @@ export const hardwareExplainerCards: HardwareExplainerCard[] = [
 	{
 		key: "hw3",
 		label: "HW3",
-		title: "The older FSD-capable installed base",
-		body: "Tesla's own service bulletin says a vehicle that shows \"Full self-driving computer\" in Additional Vehicle Information is HW3.0. Tesla's subscription support page says vehicles with FSD computer 3.0 or above are eligible for FSD (Supervised).",
+		title: "The older FSD-capable fleet",
+		body: "Tesla says a car showing \"Full self-driving computer\" is HW3. FSD (Supervised) is listed as eligible from computer 3.0 up.",
 		points: [
-			"If you never clear HW3, a large already-capable fleet still stays outside the gate.",
-			"That is why the broadest scenario on this site is HW3 + HW4, not HW4 alone.",
+			"Skip HW3 and a large capable fleet stays locked.",
+			"HW3 + HW4 is the broad yes. HW4 alone is not.",
 		],
 	},
 	{
 		key: "hw4",
 		label: "HW4",
-		title: "The newer AI computer generation",
-		body: "Tesla's newer manuals call the newer stack the AI computer, and Tesla service and recall documents separately refer to HW4 car computers. In practice, HW4 is the newer generation, not the whole fleet.",
+		title: "The newer computer",
+		body: "HW4 is the newer generation. It is not the whole fleet.",
 		points: [
-			"A HW4-only approval mostly unlocks newer vehicles, not the older installed base.",
-			"Tesla's own service record shows HW4-specific recalls and camera/computer fixes, which means the generations are real and separately managed.",
+			"A HW4-only yes mostly unlocks newer cars.",
+			"Tesla treats HW3 and HW4 as separate hardware.",
 		],
 	},
 	{
 		key: "public-stats",
 		label: "Public stats",
-		title: "What is public, and what is not",
-		body: "Tesla publicly claims FSD (Supervised) has 7x fewer major and minor collisions and 5x fewer off-highway collisions than driving without it. But Tesla's public Vehicle Safety Report is grouped by driving mode, not by HW3 versus HW4.",
+		title: "Tesla's published safety claim",
+		body: "Tesla says FSD (Supervised) has 7x fewer collisions and 5x fewer off-highway collisions than driving without it.",
 		points: [
-			"This site therefore does not invent a HW3 failure-rate table or a HW4 failure-rate table.",
-			"The 10% / 30% / 90% scope settings on this page are transparent scenario assumptions about policy reach, not Tesla-published per-hardware fleet counts.",
+			"Public reporting is by driving mode, not by HW3 vs HW4.",
+			"The 10% / 30% / 90% scopes are policy-reach assumptions.",
 		],
 	},
 ];
@@ -146,33 +148,29 @@ export const countries: CountryRecord[] = [
 ];
 
 export const institutionTrack = [
-	{ stage: "National approvals", title: "Seven countries have now moved", body: "The Netherlands moved first, then Lithuania, Estonia, Denmark, Belgium, Slovenia, and Czechia each accepted or issued national approval for FSD Supervised." },
-	{ stage: "European Commission", title: "The EU-wide step is still upstream", body: "RDW says the application for permission across the entire European Union still needs to be submitted to the European Commission." },
-	{ stage: "Member states", title: "The bottleneck is now a committee vote", body: "RDW says EU-wide validity requires a majority vote from member states in the responsible committee." },
+	{ stage: "National approvals", title: "7 of 27 have moved", body: "Netherlands, Lithuania, Estonia, Denmark, Belgium, Slovenia, Czechia." },
+	{ stage: "European Commission", title: "EU-wide use is still blocked", body: "RDW says the file still needs a Commission step." },
+	{ stage: "Member states", title: "A vote may come 3 October", body: "EU-wide validity needs a majority vote in committee. That vote may happen 3 October." },
 ];
 
 export const timeline = [
-	{ date: "Approx. October 2024", title: "Joint testing starts", body: "RDW said in March 2026 that Tesla and RDW had begun an intensive joint testing programme roughly 18 months earlier." },
-	{ date: "24 Mar 2026", title: "EU death toll reminder", body: "The European Commission reported around 19,400 road deaths across the EU in 2025." },
-	{ date: "10 Apr 2026", title: "Dutch approval lands", body: "RDW said the approval is valid in the Netherlands now, with possible later admittance across the EU." },
-	{ date: "20 May 2026", title: "Lithuania follows", body: "Lithuania recognized the Dutch provisional type approval and became the second European market to permit FSD Supervised." },
-	{ date: "29 May 2026", title: "Estonia follows", body: "Estonia recognized the RDW approval, making it the third European country with national approval." },
-	{ date: "9 Jun 2026", title: "Denmark approves", body: "The Danish Road Traffic Authority accepted the Dutch provisional type approval for use in Denmark." },
-	{ date: "10 Jun 2026", title: "Belgium approves", body: "Flemish Mobility Minister Annick De Ridder announced that she signed the approval for FSD Supervised on Belgian roads." },
-	{ date: "7 Sep 2026", title: "Slovenia follows", body: "Tesla Europe said FSD Supervised was approved in Slovenia, and AVP later confirmed it had recognized the Dutch provisional type approval." },
-	{ date: "21 Sep 2026", title: "Czechia follows", body: "The Czech Ministry of Transport recognized the Dutch provisional type approval, making Czechia the seventh EU country with national approval." },
-	{ date: "After 21 Sep 2026", title: "EU-wide use still blocked", body: "National approvals now cover seven countries, but RDW says EU-wide validity still needs Commission handling plus a member-state vote." },
+	{ date: "Approx. October 2024", title: "Joint testing starts", body: "RDW later said Tesla and RDW began intensive testing about 18 months before Dutch approval." },
+	{ date: "24 Mar 2026", title: "EU death toll", body: "The Commission reported about 19,400 road deaths in the EU in 2025." },
+	{ date: "10 Apr 2026", title: "Dutch approval", body: "RDW made FSD Supervised valid in the Netherlands. EU-wide use still needed a later vote." },
+	{ date: "20 May 2026", title: "Lithuania", body: "Second country. Recognized the Dutch approval." },
+	{ date: "29 May 2026", title: "Estonia", body: "Third country. Recognized the RDW approval." },
+	{ date: "9 Jun 2026", title: "Denmark", body: "Danish Road Traffic Authority accepted the Dutch approval." },
+	{ date: "10 Jun 2026", title: "Belgium", body: "Flemish Mobility Minister Annick De Ridder signed national approval." },
+	{ date: "7 Sep 2026", title: "Slovenia", body: "Sixth country. AVP recognized the Dutch approval." },
+	{ date: "21 Sep 2026", title: "Czechia", body: "Seventh country. Czech Ministry of Transport recognized the Dutch approval." },
+	{ date: "3 Oct 2026", title: "Possible EU vote", body: "A member-state vote may come 3 October. Until then, EU-wide use stays blocked." },
 ];
 
 export const methodology = [
-	"Country ladder uses the latest full Eurostat country road-fatality dataset (2023) so every EU state is comparable in the same table.",
-	"EV readiness uses Eurostat's 2024 share of battery-electric passenger cars in each national fleet as a proxy for how much of the fleet is currently FSD-addressable.",
-	"The scenario model multiplies 2023 road deaths by BEV fleet share, assumed Tesla share within the BEV fleet, selected Tesla hardware-scope coverage, and assumed fatal-risk reduction.",
-	"The hardware-scope settings are explicit scenario assumptions: newest cars only is set to 10% of the Tesla fleet, HW4 to 30%, and HW3 plus HW4 to 90%.",
-	"Tesla's public safety reporting is cited only for overall mode-level comparisons. It does not publish a HW3-versus-HW4 collision table, so this page does not pretend one exists.",
-	"The critique of EU-only pre-launch constraints is presented as a policy argument. In the official pages reviewed for this site, we did not find a public comparative safety study showing those EU-only additions outperform the already deployed U.S. supervised stack.",
-	"The model is intentionally transparent and editable. It is not a legal-liability claim, a clinical study, or proof that a named individual caused a specific death.",
-	"2024 and 2025 Commission road-safety releases are used in the timeline and context cards because they are newer, but their country detail is still preliminary.",
+	"2023 Eurostat road deaths, so every EU country is in the same table.",
+	"2024 Eurostat BEV fleet share as the addressable-fleet proxy.",
+	"Formula: deaths × BEV share × Tesla share × hardware scope × safety gain.",
+	"Scope settings: newest-only 10%, HW4 30%, HW3 + HW4 90%.",
 ];
 
 export const sources = [

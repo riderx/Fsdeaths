@@ -4,11 +4,11 @@ import {
 	APPROVED_MEMBER_STATES,
 	DUTCH_APPROVAL_DATE,
 	DUTCH_APPROVAL_MOMENT,
-	EU_ROAD_DEATHS_2025,
+	EU_MEMBER_STATES,
 	PROCESS_STARTED_APPROX,
 	PROCESS_STARTED_MOMENT,
 	REPORTED_TCMV_EARLIEST_VOTE_DATE,
-	REPORTED_TCMV_PRESENTATION_DATE,
+	REPORTED_TCMV_NEXT_VOTE_DATE,
 	SITE_DOMAIN,
 	SITE_DESCRIPTION,
 	SITE_TITLE,
@@ -32,18 +32,18 @@ const initialRanking = rankCountries(defaultScenario);
 const initialTotal = sumEstimatedLives(initialRanking);
 const approvalWaitDays = daysBetween(DUTCH_APPROVAL_DATE, TODAY_ISO);
 const processDays = daysBetween(PROCESS_STARTED_APPROX, TODAY_ISO);
-const pendingMemberStates = countries.length - APPROVED_MEMBER_STATES;
+const pendingMemberStates = EU_MEMBER_STATES - APPROVED_MEMBER_STATES;
 const initialLeader = initialRanking[0];
 const approvalInitial = (initialTotal / 365) * approvalWaitDays;
 const processInitial = (initialTotal / 365) * processDays;
 const initialDaily = initialTotal / 365;
-const reportedPresentationDelayDays = daysBetween(
+const juneVoteDelayDays = daysBetween(
 	DUTCH_APPROVAL_DATE,
-	REPORTED_TCMV_PRESENTATION_DATE,
+	REPORTED_TCMV_EARLIEST_VOTE_DATE,
 );
 const reportedVoteDelayDays = daysBetween(
 	DUTCH_APPROVAL_DATE,
-	REPORTED_TCMV_EARLIEST_VOTE_DATE,
+	REPORTED_TCMV_NEXT_VOTE_DATE,
 );
 const initialReportedVoteDelay = initialDaily * reportedVoteDelayDays;
 const initialScope = getFleetScope(defaultScenario.approvalScopeKey);
@@ -80,26 +80,49 @@ const renderStatusClass = (row: CountryOpportunity) =>
 	<main class="page-shell">
 		<section class="panel hero hero--clock">
 			<div class="hero__copy">
-				<p class="eyebrow">{SITE_TITLE} / {SITE_DOMAIN}</p>
-				<h1>
-					Ministers, your clock is
-					<span class="accent">still running.</span>
-				</h1>
-				<p class="lead">
-					RDW approved Tesla FSD Supervised in the Netherlands on 10 April 2026
-					after roughly 18 months of testing. Lithuania, Estonia, Denmark,
-					Belgium, Slovenia, and now Czechia have followed with national
-					approvals, but RDW still says EU-wide validity needs a European
-					Commission step and a member-state vote. If you sit anywhere in that
-					chain, this page is addressed to you.
-					The bottleneck is political now, so the cost of waiting should be
-					visible in public, not buried inside committee language.
-				</p>
-				<div class="hero__warning">
-					This is an institutional accountability tracker, not a legal-liability
-					board. The live numbers below are scenario estimates, not verified body
-					counts. They are there to make delay legible, not to fabricate blame.
+				<header class="hero__lead">
+					<p class="eyebrow">{SITE_TITLE} / {SITE_DOMAIN}</p>
+					<h1>
+						<span class="hero__setup">Ministers, your clock</span>
+						<span class="accent">is still running.</span>
+					</h1>
+				</header>
+				<div class="status">
+					<p class="status__kicker">National approvals</p>
+					<p
+						class="status__score"
+						aria-label={`${APPROVED_MEMBER_STATES} of ${EU_MEMBER_STATES} EU countries approved`}
+					>
+						<strong>{APPROVED_MEMBER_STATES}</strong>
+						<span class="status__slash" aria-hidden="true">/</span>
+						<strong>{EU_MEMBER_STATES}</strong>
+					</p>
+					<div
+						class="status__bar"
+						role="img"
+						aria-label={`${APPROVED_MEMBER_STATES} of ${EU_MEMBER_STATES} approved`}
+					>
+						{
+							Array.from({ length: EU_MEMBER_STATES }, (_, index) => (
+								<span
+									class:list={[
+										"status__tick",
+										index < APPROVED_MEMBER_STATES && "is-on",
+									]}
+								/>
+							))
+						}
+					</div>
+					<p class="status__meta">
+						<span>{pendingMemberStates} still waiting</span>
+						<span>Vote may come 3 October</span>
+					</p>
 				</div>
+				<ol class="hero__facts">
+					<li>Netherlands approved FSD Supervised on 10 April.</li>
+					<li>Six more countries followed.</li>
+					<li>EU-wide use still needs a committee vote.</li>
+				</ol>
 			</div>
 
 			<div class="counter-wall">
@@ -108,8 +131,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					<span>Live scenario counter</span>
 				</div>
 				<p class="counter-wall__eyebrow">
-					Illustrative lives left on the table while Europe keeps the EU-wide
-					approval chain blocked
+					Lives left on the table while EU-wide approval stays blocked
 				</p>
 				<strong class="counter-wall__value" id="realtime-process-counter">
 					{formatLives.format(processInitial)}
@@ -132,8 +154,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					</div>
 				</div>
 				<p class="counter-wall__caption">
-					Approximate counter from October 2024 under the current slider values
-					and <span id="selected-scope-copy">{initialScope.label}</span>.
+					From October 2024 under <span id="selected-scope-copy">{initialScope.label}</span>.
 				</p>
 				<div class="counter-wall__rail">
 					<div class="counter-tile">
@@ -143,40 +164,20 @@ const renderStatusClass = (row: CountryOpportunity) =>
 						</strong>
 					</div>
 					<div class="counter-tile">
-						<span class="counter-tile__label">Current rate</span>
+						<span class="counter-tile__label">Current rate / day</span>
 						<strong class="counter-tile__value" id="realtime-rate">
 							{formatLives.format(initialTotal / 365)}
 						</strong>
 					</div>
-					<div class="counter-tile">
-						<span class="counter-tile__label">Pending EU states</span>
-						<strong class="counter-tile__value">
-							{pendingMemberStates}/27
-						</strong>
-					</div>
-					<div class="counter-tile">
-						<span class="counter-tile__label">EU road deaths in 2025</span>
-						<strong class="counter-tile__value">
-							{formatWhole.format(EU_ROAD_DEATHS_2025)}
-						</strong>
-					</div>
 				</div>
-				<p class="counter-wall__footnote">
-					Seven national approvals are now live. RDW still says EU-wide validity
-					needs a Commission step and a member-state vote.
-				</p>
 			</div>
 		</section>
 
 		<section class="panel">
 			<div class="section-head">
-				<p class="eyebrow">Scenario model</p>
+				<p class="eyebrow">Scenario</p>
 				<h2>The upside you freeze when you wait</h2>
-				<p>
-					The controls below are intentionally exposed. Change the assumed Tesla
-					share inside the BEV fleet and the assumed fatal-risk reduction to see
-					how the country ladder moves.
-				</p>
+				<p>Move the sliders. Watch the country ladder move.</p>
 			</div>
 
 			<div class="controls">
@@ -196,10 +197,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 							step="1"
 							value={defaultScenario.teslaShareWithinBev}
 						/>
-						<small>
-							Proxy input. The site uses official BEV fleet share by country, then
-							applies this adjustable Tesla slice inside that BEV fleet.
-						</small>
+						<small>Tesla slice of each country's BEV fleet.</small>
 					</label>
 				</div>
 
@@ -217,11 +215,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 							step="1"
 							value={defaultScenario.safetyGain}
 						/>
-						<small>
-							Scenario input, not a clinical certainty. It represents the share of
-							fatal outcomes avoided within the currently addressable slice of the
-							fleet.
-						</small>
+						<small>Share of deaths avoided in the addressable fleet.</small>
 					</label>
 				</div>
 
@@ -250,11 +244,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 							))
 						}
 					</div>
-					<small>
-						Explicit scenario assumption. The point is to show how much bigger
-						the upside gets when you approve the broad HW3 and HW4 installed base
-						instead of hiding behind a token newest-cars-only unlock.
-					</small>
+					<small>HW3 + HW4 is the real unlock. Newest-only is a token yes.</small>
 				</div>
 			</div>
 
@@ -267,12 +257,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			</div>
 
 			<div class="section-head section-head--compact">
-				<p class="eyebrow">Hardware scope</p>
-				<h2>The biggest policy win lands when HW3 and HW4 are both in scope</h2>
-				<p>
-					Same country data. Same safety assumption. The difference below is only
-					how much of the eligible fleet your decision actually unlocks.
-				</p>
+				<p class="eyebrow">Hardware</p>
+				<h2>HW4-only is not the fleet</h2>
+				<p>Same data. Same safety assumption. The gap is how much of the fleet you unlock.</p>
 			</div>
 
 			<div class="scope-grid">
@@ -313,14 +300,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			</div>
 
 			<div class="section-head section-head--compact">
-				<p class="eyebrow">Before You Vote</p>
-				<h2>What HW3 and HW4 actually mean</h2>
-				<p>
-					If you are delaying on the grounds that the hardware story is unclear,
-					this is the plain version. HW4-only is not the whole fleet. HW3 plus
-					HW4 is where approval stops being symbolic and starts reaching most of
-					the already FSD-capable base.
-				</p>
+				<p class="eyebrow">Before you vote</p>
+				<h2>HW3 plus HW4 is the real yes</h2>
+				<p>HW4-only is a partial unlock. HW3 plus HW4 reaches most of the capable fleet.</p>
 			</div>
 
 			<div class="hardware-grid">
@@ -346,56 +328,42 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			<div class="hardware-callout">
 				<strong>A HW4-only yes is still a partial yes.</strong>
 				<p>
-					The reason the main counter defaults to <span id="hardware-callout-scope">{initialScope.label}</span>
-					is simple: approving only the newest generation leaves most of the
-					addressable fleet outside the gate, while delay keeps accumulating in
-					public.
+					The counter defaults to <span id="hardware-callout-scope">{initialScope.label}</span>.
+					Newest-only leaves most capable cars outside.
 				</p>
 			</div>
 
 			<div class="regulation-grid">
 				<article class="regulation-card">
-					<span class="regulation-card__label">Seven countries now</span>
-					<h3>National approvals are live, but still look HW4-first</h3>
+					<span class="regulation-card__label">{APPROVED_MEMBER_STATES} of {EU_MEMBER_STATES}</span>
+					<h3>National yes. EU still no.</h3>
 					<p>
-						Tesla's own subscription support says the FSD package is for both
-						HW3 and HW4 vehicles and lists the Netherlands as a live market, yet
-						the same support text says rollout begins with HW4 and that the
-						feature is currently only available on Full Self-Driving computer
-						4.0. Since April, Lithuania, Estonia, Denmark, Belgium, Slovenia,
-						and Czechia have also moved nationally, while EU-wide validity still
-						waits.
+						Seven countries have approved nationally.
+						Tesla's own text still points to a HW4-first rollout.
+						EU-wide validity still waits.
 					</p>
 					<ul class="regulation-card__list">
-						<li>The Netherlands moved first; six more countries have now followed.</li>
-						<li>A HW4-first rollout still leaves the larger HW3-capable installed base outside after approval.</li>
-						<li>This page treats HW4-only as an opening step, not the real safety unlock.</li>
+						<li>Netherlands first. Six more followed.</li>
+						<li>HW4-first leaves the HW3 fleet outside.</li>
 					</ul>
 				</article>
 
 				<article class="regulation-card regulation-card--alert">
-					<span class="regulation-card__label">Approve, Then Improve</span>
-					<h3>Extra pre-launch friction should be justified with evidence</h3>
+					<span class="regulation-card__label">Approve, then improve</span>
+					<h3>Extra friction needs evidence</h3>
 					<p>
-						RDW says the EU and U.S. versions are not one-to-one because Europe
-						uses different and stricter pre-approval requirements. Tesla's own
-						UNECE compliance notice gives one concrete example: the rule required
-						a customer-facing alert and blocked lane changes during a blinded
-						B-pillar camera condition, while Tesla also said an unreasonable risk
-						to safety was not present because overlapping cameras still covered
-						the maneuver.
+						RDW says EU rules are stricter than the U.S. stack.
+						Approve now. Publish the data. Tighten where the numbers justify it.
 					</p>
 					<ul class="regulation-card__list">
-						<li>This page's position is that Europe should approve faster, publish the data, then tighten where the statistics justify it.</li>
-						<li>If regulators want extra alerts, confirmations, or gating before launch, they should show the evidence for those additions in public.</li>
-						<li>The official pages reviewed for this site did not provide a public comparative safety study showing those EU-only additions outperform the already deployed U.S. supervised stack.</li>
+						<li>If you want extra alerts or gates, show the evidence in public.</li>
 					</ul>
 				</article>
 			</div>
 
 			<div class="summary-grid">
 				<article class="score-card">
-					<span class="score-card__label">Illustrative annual upside</span>
+					<span class="score-card__label">Annual upside</span>
 					<strong class="score-card__value" id="annual-upside">
 						{formatLives.format(initialTotal)}
 						<span class="unit">lives/yr</span>
@@ -410,7 +378,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 						{formatLives.format(processInitial)}
 						<span class="unit">lives</span>
 					</strong>
-					<p>Approximate cumulative upside since the RDW testing window began.</p>
+					<p>From the RDW testing window.</p>
 				</article>
 				<article class="score-card">
 					<span class="score-card__label">Since Dutch approval</span>
@@ -424,13 +392,13 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					</p>
 				</article>
 				<article class="score-card">
-					<span class="score-card__label">Largest frozen opportunity</span>
+					<span class="score-card__label">Largest frozen upside</span>
 					<strong class="score-card__value" id="leader-country">
 						{initialLeader.name}
 					</strong>
 					<p>
 						<span id="leader-value">{formatLives.format(initialLeader.estimatedLivesPerYear)}</span>
-						illustrative lives/year under <span id="leader-scope">{initialScope.label}</span>.
+						lives/year under <span id="leader-scope">{initialScope.label}</span>.
 					</p>
 				</article>
 			</div>
@@ -438,14 +406,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 		<section class="panel">
 			<div class="section-head">
-				<p class="eyebrow">Decision test</p>
-				<h2>What you win by voting now, and what you own if you keep waiting</h2>
-				<p>
-					If you are a minister, commissioner, or committee voter, this is your
-					trade. Fast approval has operational and political risk. Waiting has
-					operational and political risk too. The difference is that waiting
-					keeps the upside frozen while your delay keeps the clock moving.
-				</p>
+				<p class="eyebrow">Decision</p>
+				<h2>Vote now or own the wait</h2>
+				<p>Both paths have risk. Waiting freezes the upside while the clock runs.</p>
 			</div>
 
 			<div class="decision-grid">
@@ -458,22 +421,20 @@ const renderStatusClass = (row: CountryOpportunity) =>
 							<strong id="decision-allow-annual">
 								{formatLives.format(initialTotal)} lives/yr
 							</strong>
-							of illustrative upside under <span id="decision-allow-scope">{initialScope.label}</span>.
+							under <span id="decision-allow-scope">{initialScope.label}</span>.
 						</li>
 						<li>
-							Stop the delay clock adding about
+							Stop about
 							<strong id="decision-allow-daily">
 								{formatLives.format(initialDaily)} lives/day
 							</strong>
-							under the current assumptions.
+							from stacking up.
 						</li>
 						<li>
-							Move from theory and lobbying to monitored deployment, reporting,
-							and real European operating data.
+							Get European operating data, not more committee language.
 						</li>
 						<li>
-							Show voters you can prioritise measurable safety upside over
-							procedural stall.
+							Show voters you can pick safety over stall.
 						</li>
 					</ul>
 				</article>
@@ -482,15 +443,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					<span class="decision-card__kicker">Allow Today</span>
 					<h3>What you risk</h3>
 					<ul class="decision-list">
-						<li>Owning the public fallout from any visible failure after approval.</li>
-						<li>
-							Needing strict audit, reporting, rollback, and operational guardrail
-							rules from day one.
-						</li>
-						<li>
-							Inviting immediate scrutiny from regulators, media, and incumbent
-							industry players.
-						</li>
+						<li>You own the fallout if a failure goes public.</li>
+						<li>You need audit, reporting, and rollback from day one.</li>
+						<li>Media and incumbents will come at you immediately.</li>
 					</ul>
 				</article>
 
@@ -498,12 +453,9 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					<span class="decision-card__kicker">Keep Waiting</span>
 					<h3>What you think you win</h3>
 					<ul class="decision-list">
-						<li>More committee time, more institutional cover, less short-term exposure.</li>
-						<li>Extra time to refine conditions, reporting formats, and liability posture.</li>
-						<li>
-							One more buffer against criticism from groups that do not want rapid
-							deployment.
-						</li>
+						<li>More committee time. Less short-term heat.</li>
+						<li>More time to polish conditions and liability language.</li>
+						<li>Cover from groups that want delay.</li>
 					</ul>
 				</article>
 
@@ -516,22 +468,20 @@ const renderStatusClass = (row: CountryOpportunity) =>
 							<strong id="decision-wait-annual">
 								{formatLives.format(initialTotal)} lives/yr
 							</strong>
-							of illustrative upside frozen under <span id="decision-wait-scope">{initialScope.label}</span>.
+							frozen under <span id="decision-wait-scope">{initialScope.label}</span>.
 						</li>
 						<li>
 							Adding about
 							<strong id="decision-wait-daily">
 								{formatLives.format(initialDaily)} lives/day
 							</strong>
-							to the live delay clock while nothing changes on the road.
+							while nothing changes on the road.
 						</li>
 						<li>
-							Surrendering operational learning to markets that move earlier while
-							Europe keeps arguing in the abstract.
+							Other markets learn. Europe argues.
 						</li>
 						<li>
-							Making your delay the story, instead of the quality of the safety
-							rules you could already be enforcing.
+							Your delay becomes the story.
 						</li>
 					</ul>
 				</article>
@@ -540,84 +490,70 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 		<section class="panel">
 			<div class="section-head">
-				<p class="eyebrow">Committee delay</p>
-				<h2>The EU-wide path still waits for the Commission step and member-state vote</h2>
+				<p class="eyebrow">Committee</p>
+				<h2>A vote may come 3 October</h2>
 				<p>
-					RDW already moved on 10 April 2026 after roughly 18 months of testing.
-					Lithuania, Estonia, Denmark, Belgium, Slovenia, and Czechia have since
-					moved nationally.
-					RDW still says the remaining EU-wide path is Commission handling plus
-					a member-state vote. Reporting published on 17 April 2026, citing a
-					screenshot of a European Commission draft TCMV agenda, put the
-					5 May 2026 meeting as a Netherlands Article 39 update slot, not the
-					vote itself, with 30 June 2026 as the next reported vote window.
+					Seven countries already moved.
+					EU-wide use still needs a member-state vote.
+					That vote may happen 3 October.
 				</p>
 			</div>
 
 			<div class="committee-grid">
 				<article class="committee-card">
 					<span class="committee-card__label">10 Apr 2026</span>
-					<strong class="committee-card__value">Dutch approval landed</strong>
-					<p>RDW issued national validity after more than 18 months of testing.</p>
-				</article>
-				<article class="committee-card">
-					<span class="committee-card__label">5 May 2026</span>
-					<strong class="committee-card__value">Reported presentation slot</strong>
-					<p>
-						The reported draft agenda gives the Netherlands an Article 39 update
-						slot only, not a vote, after a
-						<strong>{formatWhole.format(reportedPresentationDelayDays)}-day wait</strong>
-						from Dutch approval.
-					</p>
+					<strong class="committee-card__value">Dutch approval</strong>
+					<p>RDW issued national validity after 18 months of testing.</p>
 				</article>
 				<article class="committee-card">
 					<span class="committee-card__label">30 Jun 2026</span>
-					<strong class="committee-card__value">Earliest reported vote window</strong>
+					<strong class="committee-card__value">No vote</strong>
 					<p>
-						That is a <strong>{formatWhole.format(reportedVoteDelayDays)}-day gap</strong>
-						from Dutch approval to the earliest reported formal committee vote.
+						{formatWhole.format(juneVoteDelayDays)} days after Dutch approval,
+						the committee still did not vote.
+					</p>
+				</article>
+				<article class="committee-card">
+					<span class="committee-card__label">3 Oct 2026</span>
+					<strong class="committee-card__value">Possible vote</strong>
+					<p>
+						{formatWhole.format(reportedVoteDelayDays)} days after Dutch approval.
+						The date is not locked.
 					</p>
 				</article>
 				<article class="committee-card committee-card--hot">
-					<span class="committee-card__label">Frozen by 30 Jun</span>
+					<span class="committee-card__label">Frozen by 3 Oct</span>
 					<strong class="committee-card__value" id="committee-frozen">
 						{formatLives.format(initialReportedVoteDelay)}
 						<span class="unit">lives</span>
 					</strong>
 					<p>
-						Illustrative upside left on the table between 10 April 2026 and the
-						earliest reported 30 June 2026 vote window under
+						Upside left on the table from 10 April to 3 October under
 						<span id="committee-scope">{initialScope.label}</span>.
 					</p>
 				</article>
 			</div>
 
 			<p class="footnote">
-				RDW's own 10 April 2026 explanation confirms the Commission step and the
-				member-state vote, but it does not publish committee dates. The 5 May
-				2026 and 30 June 2026 dates above come from secondary reporting that
-				cites a screenshot attributed to a European Commission draft agenda.
-				National approvals since then do not replace the EU-wide vote.
+				RDW confirms the Commission step and the member-state vote.
+				It does not publish the committee date.
+				3 October is the next window in play. It can slip.
 			</p>
 		</section>
 
 		<section class="panel">
 			<div class="section-head">
 				<p class="eyebrow">Country ladder</p>
-				<h2>Where the frozen safety upside looks largest</h2>
+				<h2>Where delay costs most</h2>
 				<p>
-					This is a country-by-country ranking of the estimated annual safety
-					upside governments are still leaving on the table. It is based on the
-					latest full Eurostat fatality dataset plus 2024 BEV fleet share data,
-					filtered through the selected approval scope.
+					Ranked by estimated lives per year.
+					2023 deaths. 2024 BEV share. Selected hardware scope.
 				</p>
 			</div>
 
 			<table class="country-ladder">
 				<caption>
-					The Netherlands, Lithuania, Estonia, Denmark, Belgium, Slovenia, and
-					Czechia are marked separately because national approval is already live
-					there. All other rows remain pending the EU-wide step RDW describes.
+					Green is national approval. The rest wait on the EU vote.
 				</caption>
 				<thead>
 					<tr>
@@ -668,21 +604,17 @@ const renderStatusClass = (row: CountryOpportunity) =>
 				</tbody>
 			</table>
 			<p class="footnote">
-				Using 2023 country fatality counts is deliberate: it is the latest full
-				Eurostat country dataset. 2024 and 2025 Commission releases are newer
-				but still preliminary at country detail level.
+				2023 is the latest full Eurostat country dataset.
 			</p>
 		</section>
 
 		<section class="panel">
 			<div class="section-head">
-				<p class="eyebrow">Institution map</p>
-				<h2>Where responsibility actually sits today</h2>
+				<p class="eyebrow">Who holds the gate</p>
+				<h2>Seven countries moved. The vote is next.</h2>
 				<p>
-					The public argument gets weaker when it blurs the process. RDW's own
-					text makes the bottleneck legible: national authorities can move, and
-					seven now have, while the EU-wide route still needs Commission handling
-					and a member-state vote.
+					National authorities can move. Seven have.
+					EU-wide use still needs a committee vote.
 				</p>
 			</div>
 
@@ -702,12 +634,8 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		<section class="panel">
 			<div class="section-head">
 				<p class="eyebrow">Timeline</p>
-				<h2>How the clock has moved so far</h2>
-				<p>
-					The sequence matters. RDW's testing window was long, the Dutch approval
-					finally landed, six more national approvals followed, and the EU-wide
-					process still has not crossed the last-mile institutional gates.
-				</p>
+				<h2>How we got here</h2>
+				<p>Long test. Dutch yes. Six more. Vote still pending.</p>
 			</div>
 
 			<div class="timeline">
@@ -726,7 +654,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		<section class="panel method-grid">
 			<div class="method-card">
 				<span class="method-card__kicker">Method</span>
-				<h2 class="method__title">What the model is and what it is not</h2>
+				<h2 class="method__title">How the numbers work</h2>
 				<ul>
 					{methodology.map((item) => <li>{item}</li>)}
 				</ul>
@@ -734,7 +662,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 
 			<div class="method-card">
 				<span class="method-card__kicker">Sources</span>
-				<h2 class="sources__title">Sources and reporting</h2>
+				<h2 class="sources__title">Sources</h2>
 				<ul class="sources-list">
 					{
 						sources.map((source) => (
