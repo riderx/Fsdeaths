@@ -1,40 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
   <defs>
-    <linearGradient id="bg" x1="18" y1="14" x2="108" y2="116" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2A1710"/>
-      <stop offset="1" stop-color="#120B08"/>
-    </linearGradient>
-    <linearGradient id="car" x1="36" y1="48" x2="88" y2="84" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FF9A57"/>
-      <stop offset="1" stop-color="#FF6126"/>
-    </linearGradient>
-    <linearGradient id="glass" x1="50" y1="48" x2="74" y2="68" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFF3DE"/>
-      <stop offset="1" stop-color="#FFD8AB"/>
-    </linearGradient>
+    <linearGradient id="paint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#e6e8ec"/><stop offset="1" stop-color="#b4b9c1"/></linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#454b55"/><stop offset="1" stop-color="#0b0d10"/></linearGradient>
+    <radialGradient id="rim"><stop offset="0" stop-color="#8a9099"/><stop offset="1" stop-color="#3a3f47"/></radialGradient>
   </defs>
-
-  <rect x="6" y="6" width="116" height="116" rx="28" fill="url(#bg)"/>
-  <rect x="6" y="6" width="116" height="116" rx="28" stroke="#4A2B1C" stroke-width="2"/>
-
-  <circle cx="30" cy="26" r="20" fill="#FF6B2C" opacity=".18"/>
-  <circle cx="100" cy="98" r="24" fill="#FFD166" opacity=".12"/>
-
-  <rect x="16" y="82" width="96" height="20" rx="10" fill="#231510"/>
-  <rect x="25" y="90" width="50" height="4" rx="2" fill="#FFD166"/>
-  <rect x="79" y="90" width="13" height="4" rx="2" fill="#FFD166" opacity=".75"/>
-
-  <path d="M35 73.5V68C35 62.5 39.5 58 45 58H67.5C72.5 58 77.2 60.7 80.1 65L84.6 71.6C86.2 74 84.5 77 81.6 77H41C37.7 77 35 75.3 35 73.5Z" fill="url(#car)"/>
-  <path d="M50 57.5C51.5 52.7 55.9 49 61 49H70.2C74.2 49 77.9 51.2 80.1 54.5L82 57.5H50Z" fill="url(#car)"/>
-  <path d="M53 57H77.8L75.6 53.9C74.5 52.3 72.7 51.3 70.8 51.3H61.7C58.4 51.3 55.4 53.5 54.4 56.6L53 57Z" fill="url(#glass)"/>
-
-  <circle cx="48" cy="78.5" r="10.5" fill="#110B08"/>
-  <circle cx="48" cy="78.5" r="4.2" fill="#F6DFC2"/>
-  <circle cx="76" cy="78.5" r="10.5" fill="#110B08"/>
-  <circle cx="76" cy="78.5" r="4.2" fill="#F6DFC2"/>
-
-  <circle cx="40.5" cy="69.5" r="2.2" fill="#FFD166"/>
-  <rect x="79.5" y="67.4" width="5.8" height="3.2" rx="1.6" fill="#FFF0D9"/>
-
-  <path d="M92.5 57.5 96 51l4.5 6.5h-3.2v7h-2.6v-7h-2.2Z" fill="#FFD166"/>
+  <rect width="128" height="128" rx="28" fill="#171a20"/>
+  <g transform="translate(4 38) scale(0.5)">
+    <path fill="url(#paint)" d="M16 62C11 61 9 55 9.5 49L10.5 40C11 37 13 35.5 17 35L30 33.5C50 27 68 17 94 13.5C114 11 132 11.4 148 14.4C162 17.6 175 25 186 31.5C202 34 218 37 227 41C233 44 234 52 232 57C231 60 228 62 224 62L204 62A20 20 0 0 0 164 62L72 62A20 20 0 0 0 32 62Z"/>
+    <path fill="url(#glass)" d="M37 33.4C56 26.4 74 19.4 96 16.6C115 14.4 133 14.8 147 17.6C159 20.6 169 26.2 177 31.6C140 31.6 80 32.4 37 33.4Z"/>
+    <path d="M114 15.4V32.4" stroke="#dfe2e6" stroke-width="2.4"/>
+    <path d="M114 34V58M152 33.6V58" stroke="#9ea4ac" stroke-width=".45"/>
+    <path d="M215 38.6Q222 39.6 228.5 42.6" stroke="#1b1f25" stroke-width="2.1" stroke-linecap="round" fill="none"/>
+    <path d="M10.8 38.8L24 36.4" stroke="#c0121f" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M18 60.6H32M72 60.6H164M204 60.6H226" stroke="#262a31" stroke-width="2.6"/>
+    <g id="wh"><circle cx="52" cy="62" r="16.4" fill="#0f1114"/><circle cx="52" cy="62" r="11.6" fill="url(#rim)"/><circle cx="52" cy="62" r="10.2" fill="#2c3037"/><path d="M52 62V53M52 62l8.6 2.8M52 62l5.3 7.3M52 62l-5.3 7.3M52 62l-8.6 2.8" stroke="#7d838c" stroke-width="2.6" stroke-linecap="round"/><circle cx="52" cy="62" r="3.2" fill="#c9cdd2"/></g>
+    <use href="#wh" x="132"/>
+  </g>
+  <rect x="10" y="80" width="108" height="3" rx="1.5" fill="#e31937"/>
 </svg>

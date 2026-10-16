@@ -1,91 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
   <defs>
-    <linearGradient id="bg" x1="120" y1="20" x2="1060" y2="610" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#17100C"/>
-      <stop offset="0.55" stop-color="#100907"/>
-      <stop offset="1" stop-color="#080504"/>
-    </linearGradient>
-    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(980 120) rotate(127) scale(300 270)">
-      <stop stop-color="#FF6B2C" stop-opacity="0.3"/>
-      <stop offset="1" stop-color="#FF6B2C" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(180 40) rotate(72) scale(210 250)">
-      <stop stop-color="#FFD166" stop-opacity="0.12"/>
-      <stop offset="1" stop-color="#FFD166" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="panel" x1="600" y1="42" x2="600" y2="588" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2A1811" stop-opacity="0.97"/>
-      <stop offset="1" stop-color="#1A100B" stop-opacity="0.97"/>
-    </linearGradient>
-    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
-      <stop stop-color="#341E15"/>
-      <stop offset="1" stop-color="#24140D"/>
-    </linearGradient>
-    <linearGradient id="carBody" x1="0" y1="0" x2="0" y2="1">
-      <stop stop-color="#FF9756"/>
-      <stop offset="1" stop-color="#FF6B2C"/>
-    </linearGradient>
+    <linearGradient id="paint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#e6e8ec"/><stop offset="1" stop-color="#b4b9c1"/></linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#454b55"/><stop offset="1" stop-color="#0b0d10"/></linearGradient>
+    <radialGradient id="rim"><stop offset="0" stop-color="#8a9099"/><stop offset="1" stop-color="#3a3f47"/></radialGradient>
   </defs>
-
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <rect width="1200" height="10" fill="#FF6B2C"/>
-  <rect y="10" width="1200" height="4" fill="#FFD166"/>
-  <circle cx="980" cy="120" r="250" fill="url(#glowA)"/>
-  <circle cx="180" cy="40" r="190" fill="url(#glowB)"/>
-
-  <rect x="38" y="42" width="1124" height="548" rx="28" fill="url(#panel)" stroke="#FFB780" stroke-opacity="0.18"/>
-
-  <text x="72" y="90" fill="#FFD166" font-family="Arial" font-size="24" font-weight="700" letter-spacing="5">FSD DELAY CLOCK</text>
-  <text x="72" y="124" fill="#F7EAD7" font-family="Arial" font-size="20" font-weight="600" letter-spacing="1.8">fsddelay.org</text>
-
-  <text x="72" y="198" fill="#F7EAD7" font-family="Arial" font-size="74" font-weight="900" letter-spacing="-2">MINISTERS,</text>
-  <text x="72" y="272" fill="#F7EAD7" font-family="Arial" font-size="74" font-weight="900" letter-spacing="-2">YOUR CLOCK IS</text>
-  <text x="72" y="346" fill="#FF9756" font-family="Arial" font-size="78" font-weight="900" letter-spacing="-2.2">STILL RUNNING.</text>
-
-  <text x="74" y="410" fill="#D0B79A" font-family="Georgia" font-size="26">Five EU countries now have national FSD approval.</text>
-  <text x="74" y="446" fill="#D0B79A" font-family="Georgia" font-size="26">EU-wide validity still waits for the Commission and vote.</text>
-
-  <rect x="72" y="492" width="250" height="48" rx="24" fill="#24150F" stroke="#FFB780" stroke-opacity="0.18"/>
-  <text x="197" y="523" fill="#FFD166" font-family="Arial" font-size="20" font-weight="800" letter-spacing="1.4" text-anchor="middle">HW4-ONLY IS PARTIAL</text>
-
-  <rect x="72" y="548" width="310" height="48" rx="24" fill="#24150F" stroke="#FFB780" stroke-opacity="0.18"/>
-  <text x="227" y="579" fill="#FFD166" font-family="Arial" font-size="20" font-weight="800" letter-spacing="1.1" text-anchor="middle">APPROVE THEN IMPROVE</text>
-
-  <text x="420" y="579" fill="#FFF0E3" font-family="Arial" font-size="16" font-weight="700" letter-spacing="2.4">SOURCE-BACKED ACTIVIST TRACKER</text>
-
-  <rect x="780" y="76" width="332" height="220" rx="24" fill="url(#card)" stroke="#FF6B2C" stroke-opacity="0.25"/>
-  <text x="808" y="118" fill="#FFD166" font-family="Arial" font-size="20" font-weight="800" letter-spacing="2.7">LIVE SCENARIO COUNTER</text>
-  <text x="808" y="146" fill="#D0B79A" font-family="Georgia" font-size="18">Illustrative lives/year frozen</text>
-  <text x="808" y="171" fill="#D0B79A" font-family="Georgia" font-size="18">under the broad HW3 + HW4</text>
-  <text x="808" y="196" fill="#D0B79A" font-family="Georgia" font-size="18">policy scope</text>
-  <text x="804" y="272" fill="#FFF0E3" font-family="Arial" font-size="94" font-weight="900" letter-spacing="-5">25.2</text>
-  <text x="1000" y="272" fill="#FFD166" font-family="Arial" font-size="24" font-weight="800" letter-spacing="1.4">LIVES/YR</text>
-
-  <rect x="780" y="320" width="332" height="220" rx="24" fill="url(#card)" stroke="#FFB780" stroke-opacity="0.16"/>
-  <text x="808" y="358" fill="#FFD166" font-family="Arial" font-size="20" font-weight="800" letter-spacing="2.7">NEXT +1</text>
-  <text x="804" y="426" fill="#FFF2CB" font-family="Arial" font-size="78" font-weight="900" letter-spacing="-4">14.5D</text>
-  <text x="808" y="458" fill="#D0B79A" font-family="Georgia" font-size="18">Default pace of</text>
-  <text x="808" y="481" fill="#D0B79A" font-family="Georgia" font-size="18">the live counter</text>
-
-  <rect x="808" y="506" width="236" height="14" rx="7" fill="#251712"/>
-  <rect x="828" y="511" width="100" height="4" rx="2" fill="#FFD166"/>
-  <rect x="1044" y="492" width="48" height="38" rx="10" fill="#FFD166"/>
-  <path d="M1052 506H1084" stroke="#FF6B2C" stroke-width="6"/>
-  <path d="M1048 528H1088" stroke="#FF6B2C" stroke-width="6"/>
-
-  <g transform="translate(930 470)">
-    <path d="M8 42C8 25 20 16 38 16H78L98 31V45H8V42Z" fill="url(#carBody)"/>
-    <path d="M36 16C40 5 49 0 61 0H72C82 0 90 6 95 16H36Z" fill="#FFE4C6"/>
-    <path d="M43 16C47 8 54 5 63 5H69C76 5 82 8 86 16H43Z" fill="#FFCFA4"/>
-    <rect x="68" y="23" width="19" height="4" rx="2" fill="#FFB780" opacity="0.45"/>
-    <circle cx="30" cy="46" r="12" fill="#16100D"/>
-    <circle cx="79" cy="46" r="12" fill="#16100D"/>
-    <circle cx="30" cy="46" r="4.8" fill="#F6D9BA"/>
-    <circle cx="79" cy="46" r="4.8" fill="#F6D9BA"/>
-    <circle cx="88" cy="31" r="2.8" fill="#FFF2CB"/>
-    <rect x="9" y="31" width="8" height="5" rx="2.5" fill="#FF9756"/>
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <text x="72" y="92" fill="#171a20" font-family="Helvetica Neue, Helvetica, Arial" font-size="22" font-weight="600" letter-spacing="7">FSD DELAY</text>
+  <text x="1128" y="92" fill="#5c5e62" font-family="Helvetica Neue, Helvetica, Arial" font-size="22" text-anchor="end">fsddelay.org</text>
+  <text x="70" y="204" fill="#171a20" font-family="Helvetica Neue, Helvetica, Arial" font-size="72" font-weight="500" letter-spacing="-1.5">Ministers, your clock</text>
+  <text x="70" y="284" fill="#5c5e62" font-family="Helvetica Neue, Helvetica, Arial" font-size="72" font-weight="500" letter-spacing="-1.5">is still running.</text>
+  <text x="72" y="356" fill="#5c5e62" font-family="Helvetica Neue, Helvetica, Arial" font-size="22">National approvals</text>
+  <text x="66" y="460" fill="#171a20" font-family="Helvetica Neue, Helvetica, Arial" font-size="120" font-weight="500" letter-spacing="-3">9 / 27</text>
+  <text x="72" y="530" fill="#393c41" font-family="Helvetica Neue, Helvetica, Arial" font-size="26">EU-wide vote may come 1 December.</text>
+  <rect x="660" y="330" width="468" height="230" rx="16" fill="#171a20"/>
+  <circle cx="692" cy="364" r="7" fill="#e31937"/>
+  <text x="710" y="371" fill="#d0d1d2" font-family="Helvetica Neue, Helvetica, Arial" font-size="20">18 countries still waiting</text>
+  <rect x="660" y="508" width="468" height="26" fill="#2b2f36"/>
+  <rect x="1056" y="474" width="52" height="34" rx="4" fill="#e31937"/>
+  <path d="M1060 508L1090 474M1076 508L1106 474" stroke="#ffffff" stroke-width="7"/>
+  <g transform="translate(758 411) scale(1.25)">
+    <path fill="url(#paint)" d="M16 62C11 61 9 55 9.5 49L10.5 40C11 37 13 35.5 17 35L30 33.5C50 27 68 17 94 13.5C114 11 132 11.4 148 14.4C162 17.6 175 25 186 31.5C202 34 218 37 227 41C233 44 234 52 232 57C231 60 228 62 224 62L204 62A20 20 0 0 0 164 62L72 62A20 20 0 0 0 32 62Z"/>
+    <path fill="url(#glass)" d="M37 33.4C56 26.4 74 19.4 96 16.6C115 14.4 133 14.8 147 17.6C159 20.6 169 26.2 177 31.6C140 31.6 80 32.4 37 33.4Z"/>
+    <path d="M114 15.4V32.4" stroke="#dfe2e6" stroke-width="2.4"/>
+    <path d="M114 34V58M152 33.6V58" stroke="#9ea4ac" stroke-width=".45"/>
+    <path d="M215 38.6Q222 39.6 228.5 42.6" stroke="#1b1f25" stroke-width="2.1" stroke-linecap="round" fill="none"/>
+    <path d="M10.8 38.8L24 36.4" stroke="#c0121f" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M18 60.6H32M72 60.6H164M204 60.6H226" stroke="#262a31" stroke-width="2.6"/>
+    <g id="wh"><circle cx="52" cy="62" r="16.4" fill="#0f1114"/><circle cx="52" cy="62" r="11.6" fill="url(#rim)"/><circle cx="52" cy="62" r="10.2" fill="#2c3037"/><path d="M52 62V53M52 62l8.6 2.8M52 62l5.3 7.3M52 62l-5.3 7.3M52 62l-8.6 2.8" stroke="#7d838c" stroke-width="2.6" stroke-linecap="round"/><circle cx="52" cy="62" r="3.2" fill="#c9cdd2"/></g>
+    <use href="#wh" x="132"/>
   </g>
-
-  <circle cx="1080" cy="388" r="27" fill="#FF6B2C" fill-opacity="0.16" stroke="#FF6B2C" stroke-opacity="0.4"/>
-  <text x="1080" y="397" fill="#FFF0E3" font-family="Arial" font-size="25" font-weight="900" text-anchor="middle">+1</text>
 </svg>

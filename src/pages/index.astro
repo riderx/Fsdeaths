@@ -83,6 +83,15 @@ const renderStatusClass = (row: CountryOpportunity) =>
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<nav class="site-nav" aria-label="Primary">
+		<a class="site-nav__brand" href="/">FSD Delay</a>
+		<div class="site-nav__links">
+			<a href="#scenario">Scenario</a>
+			<a href="#vote">Vote</a>
+			<a href="#countries">Countries</a>
+			<a href="#method">Sources</a>
+		</div>
+	</nav>
 	<main class="page-shell">
 		<section class="panel hero hero--clock">
 			<div class="hero__copy">
@@ -154,9 +163,29 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					<div class="impact-stage__burst">!</div>
 					<div class="impact-stage__stamp" id="impact-stage-stamp">+1</div>
 					<div class="impact-stage__car">
-						<span class="impact-stage__roof"></span>
-						<span class="impact-stage__wheel impact-stage__wheel--rear"></span>
-						<span class="impact-stage__wheel impact-stage__wheel--front"></span>
+						<svg viewBox="0 0 240 82" xmlns="http://www.w3.org/2000/svg">
+							<defs>
+								<linearGradient id="car-paint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset=".5" stop-color="#e6e8ec" /><stop offset="1" stop-color="#b4b9c1" /></linearGradient>
+								<linearGradient id="car-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#454b55" /><stop offset="1" stop-color="#0b0d10" /></linearGradient>
+								<radialGradient id="car-rim"><stop offset="0" stop-color="#8a9099" /><stop offset="1" stop-color="#3a3f47" /></radialGradient>
+							</defs>
+							<path fill="url(#car-paint)" d="M16 62C11 61 9 55 9.5 49L10.5 40C11 37 13 35.5 17 35L30 33.5C50 27 68 17 94 13.5C114 11 132 11.4 148 14.4C162 17.6 175 25 186 31.5C202 34 218 37 227 41C233 44 234 52 232 57C231 60 228 62 224 62L204 62A20 20 0 0 0 164 62L72 62A20 20 0 0 0 32 62Z" />
+							<path fill="url(#car-glass)" d="M37 33.4C56 26.4 74 19.4 96 16.6C115 14.4 133 14.8 147 17.6C159 20.6 169 26.2 177 31.6C140 31.6 80 32.4 37 33.4Z" />
+							<path d="M114 15.4V32.4" stroke="#dfe2e6" stroke-width="2.4" />
+							<path d="M114 34V58M152 33.6V58" stroke="#9ea4ac" stroke-width=".45" />
+							<path d="M99 38.5h6M137 38.3h6" stroke="#9ea4ac" stroke-width=".9" stroke-linecap="round" />
+							<path d="M215 38.6Q222 39.6 228.5 42.6" stroke="#1b1f25" stroke-width="2.1" stroke-linecap="round" fill="none" />
+							<path d="M10.8 38.8L24 36.4" stroke="#c0121f" stroke-width="2.4" stroke-linecap="round" />
+							<path d="M18 60.6H32M72 60.6H164M204 60.6H226" stroke="#262a31" stroke-width="2.6" />
+							<g id="car-wheel">
+								<circle cx="52" cy="62" r="16.4" fill="#0f1114" />
+								<circle cx="52" cy="62" r="11.6" fill="url(#car-rim)" />
+								<circle cx="52" cy="62" r="10.2" fill="#2c3037" />
+								<path d="M52 62V53M52 62l8.6 2.8M52 62l5.3 7.3M52 62l-5.3 7.3M52 62l-8.6 2.8" stroke="#7d838c" stroke-width="2.6" stroke-linecap="round" />
+								<circle cx="52" cy="62" r="3.2" fill="#c9cdd2" />
+							</g>
+							<use href="#car-wheel" x="132" />
+						</svg>
 					</div>
 				</div>
 				<p class="counter-wall__caption">
@@ -179,7 +208,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			</div>
 		</section>
 
-		<section class="panel">
+		<section id="scenario" class="panel">
 			<div class="section-head">
 				<p class="eyebrow">Scenario</p>
 				<h2>The upside you freeze when you wait</h2>
@@ -494,7 +523,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			</div>
 		</section>
 
-		<section class="panel">
+		<section id="vote" class="panel">
 			<div class="section-head">
 				<p class="eyebrow">Committee</p>
 				<h2>A vote may come 1 December</h2>
@@ -547,7 +576,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			</p>
 		</section>
 
-		<section class="panel">
+		<section id="countries" class="panel">
 			<div class="section-head">
 				<p class="eyebrow">Country ladder</p>
 				<h2>Where delay costs most</h2>
@@ -657,7 +686,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			</div>
 		</section>
 
-		<section class="panel method-grid">
+		<section id="method" class="panel method-grid">
 			<div class="method-card">
 				<span class="method-card__kicker">Method</span>
 				<h2 class="method__title">How the numbers work</h2>
