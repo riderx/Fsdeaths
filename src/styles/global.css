@@ -1,8 +1,8 @@
 :root {
-	--bg: #ffffff;
+	--bg: #eceef1;
 	--bg-deep: #f4f4f4;
 	--panel: #ffffff;
-	--panel-strong: #f4f4f4;
+	--panel-strong: #f4f5f7;
 	--line: rgba(23, 26, 32, 0.1);
 	--text: #171a20;
 	--muted: #393c41;
@@ -43,7 +43,7 @@ a { color: inherit; }
 	justify-content: space-between;
 	gap: 1rem;
 	padding: 0.85rem clamp(1rem, 3vw, 2.5rem);
-	background: rgba(255, 255, 255, 0.86);
+	background: rgba(236, 238, 241, 0.86);
 	backdrop-filter: saturate(180%) blur(12px);
 	-webkit-backdrop-filter: saturate(180%) blur(12px);
 }
@@ -80,8 +80,18 @@ section[id] { scroll-margin-top: 4.5rem; }
 }
 .hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.95fr); gap: 1.5rem; padding: 1.75rem; }
 .hero--clock {
-	background: var(--panel);
+	--text: #ffffff;
+	--muted: #d0d1d2;
+	--soft: #8e9095;
+	--warning: #a2a4a8;
+	--line: rgba(255, 255, 255, 0.12);
+	color: var(--text);
+	border-color: transparent;
+	background: #171a20;
 }
+.hero--clock .counter-wall { background: #22252c; }
+.hero--clock .status__tick { background: rgba(255, 255, 255, 0.14); }
+.hero--clock .status__tick.is-on { background: var(--ok); }
 .hero__copy h1, .section-head h2, .method__title, .sources__title {
 	margin: 0;
 	font-family: var(--display-font);
@@ -285,14 +295,14 @@ section[id] { scroll-margin-top: 4.5rem; }
 	animation: counterHit 820ms ease;
 }
 .impact-stage {
-	--impact-run: calc(100cqw - 9.5rem - 8.6rem - 5.2rem);
+	--impact-run: calc(100cqw - 9.5rem - 10rem - 5.2rem);
 	container-type: inline-size;
 	position: relative;
 	height: 9.6rem;
 	margin: 0.1rem 0 0;
 	border: 1px solid rgba(255, 255, 255, 0.08);
 	border-radius: var(--radius-md);
-	background: linear-gradient(180deg, #22252c 0%, #1b1e24 100%);
+	background: linear-gradient(180deg, #1b1e24 0%, #15171c 100%);
 	overflow: hidden;
 }
 .impact-stage::after {
@@ -368,13 +378,13 @@ section[id] { scroll-margin-top: 4.5rem; }
 .impact-stage__car {
 	position: absolute;
 	left: 9.5rem;
-	bottom: 0.95rem;
-	width: 8.6rem;
+	bottom: 1rem;
+	width: 10rem;
 	height: auto;
-	filter: drop-shadow(0 0.35rem 0.5rem rgba(0, 0, 0, 0.35));
+	display: block;
+	filter: drop-shadow(0 0.3rem 0.35rem rgba(0, 0, 0, 0.5));
 	transform-origin: 80% 90%;
 }
-.impact-stage__car svg { display: block; width: 100%; height: auto; }
 .impact-stage__burst {
 	position: absolute;
 	right: 4.45rem;

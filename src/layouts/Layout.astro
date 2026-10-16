@@ -13,7 +13,7 @@ const {
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://fsddelay.org";
 const canonicalUrl = new URL(Astro.url.pathname, `${siteUrl}/`).toString();
-const socialImageUrl = `${siteUrl}/social-card.png?v=7`;
+const socialImageUrl = `${siteUrl}/social-card.png?v=8`;
 const socialImageAlt =
 	"FSD Delay Clock share image with the headline Ministers, your clock is still running and a Tesla Model 3 at a red barrier.";
 ---
@@ -23,12 +23,12 @@ const socialImageAlt =
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=car2" />
-		<link rel="icon" type="image/png" href="/favicon.png?v=car2" sizes="128x128" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=car3" />
+		<link rel="icon" type="image/png" href="/favicon.png?v=car3" sizes="128x128" />
 		<link rel="canonical" href={canonicalUrl} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#ffffff" />
+		<meta name="theme-color" content="#eceef1" />
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="FSD Delay Clock" />
 		<meta property="og:url" content={canonicalUrl} />

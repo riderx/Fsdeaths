@@ -1,10 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
-  <defs>
-    <linearGradient id="paint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#e6e8ec"/><stop offset="1" stop-color="#b4b9c1"/></linearGradient>
-    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#454b55"/><stop offset="1" stop-color="#0b0d10"/></linearGradient>
-    <radialGradient id="rim"><stop offset="0" stop-color="#8a9099"/><stop offset="1" stop-color="#3a3f47"/></radialGradient>
-  </defs>
-  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect width="1200" height="630" fill="#eceef1"/>
   <text x="72" y="92" fill="#171a20" font-family="Helvetica Neue, Helvetica, Arial" font-size="22" font-weight="600" letter-spacing="7">FSD DELAY</text>
   <text x="1128" y="92" fill="#5c5e62" font-family="Helvetica Neue, Helvetica, Arial" font-size="22" text-anchor="end">fsddelay.org</text>
   <text x="70" y="204" fill="#171a20" font-family="Helvetica Neue, Helvetica, Arial" font-size="72" font-weight="500" letter-spacing="-1.5">Ministers, your clock</text>
@@ -18,15 +13,4 @@
   <rect x="660" y="508" width="468" height="26" fill="#2b2f36"/>
   <rect x="1056" y="474" width="52" height="34" rx="4" fill="#e31937"/>
   <path d="M1060 508L1090 474M1076 508L1106 474" stroke="#ffffff" stroke-width="7"/>
-  <g transform="translate(758 411) scale(1.25)">
-    <path fill="url(#paint)" d="M16 62C11 61 9 55 9.5 49L10.5 40C11 37 13 35.5 17 35L30 33.5C50 27 68 17 94 13.5C114 11 132 11.4 148 14.4C162 17.6 175 25 186 31.5C202 34 218 37 227 41C233 44 234 52 232 57C231 60 228 62 224 62L204 62A20 20 0 0 0 164 62L72 62A20 20 0 0 0 32 62Z"/>
-    <path fill="url(#glass)" d="M37 33.4C56 26.4 74 19.4 96 16.6C115 14.4 133 14.8 147 17.6C159 20.6 169 26.2 177 31.6C140 31.6 80 32.4 37 33.4Z"/>
-    <path d="M114 15.4V32.4" stroke="#dfe2e6" stroke-width="2.4"/>
-    <path d="M114 34V58M152 33.6V58" stroke="#9ea4ac" stroke-width=".45"/>
-    <path d="M215 38.6Q222 39.6 228.5 42.6" stroke="#1b1f25" stroke-width="2.1" stroke-linecap="round" fill="none"/>
-    <path d="M10.8 38.8L24 36.4" stroke="#c0121f" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M18 60.6H32M72 60.6H164M204 60.6H226" stroke="#262a31" stroke-width="2.6"/>
-    <g id="wh"><circle cx="52" cy="62" r="16.4" fill="#0f1114"/><circle cx="52" cy="62" r="11.6" fill="url(#rim)"/><circle cx="52" cy="62" r="10.2" fill="#2c3037"/><path d="M52 62V53M52 62l8.6 2.8M52 62l5.3 7.3M52 62l-5.3 7.3M52 62l-8.6 2.8" stroke="#7d838c" stroke-width="2.6" stroke-linecap="round"/><circle cx="52" cy="62" r="3.2" fill="#c9cdd2"/></g>
-    <use href="#wh" x="132"/>
-  </g>
 </svg>

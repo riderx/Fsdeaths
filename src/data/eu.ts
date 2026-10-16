@@ -203,6 +203,7 @@ export const sources = [
 	{ label: "Eurostat demo_gind", href: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?indic_de=JAN&time=2025", note: "Population on 1 January 2025." },
 	{ label: "Eurostat road_eqs_zev", href: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/road_eqs_zev?time=2024&mot_nrg=ELC&vehicle=CAR&unit=PC", note: "Share of battery-electric passenger cars in the national fleet, 2024." },
 	{ label: "Eurostat tran_sf_roadus", href: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?time=2023&sex=T&age=TOTAL&pers_cat=TOTAL&unit=NR", note: "Road traffic fatalities by country, 2023." },
+	{ label: "Car photo: Tesla Model 3 (2023), Kazyakuruma, Wikimedia Commons (CC0)", href: "https://commons.wikimedia.org/wiki/File:Tesla_Model_3_(2023),_long_range,_Japan,_left-side.jpg", note: "Public-domain photo used for the car in the live counter, favicon, and share image, cut out and mirrored." },
 ];
 
 export function getFleetScope(key: FleetScopeKey) {
