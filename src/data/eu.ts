@@ -42,7 +42,7 @@ export type CountryOpportunity = CountryRecord & {
 export const SITE_TITLE = "FSD Delay Clock";
 export const SITE_DOMAIN = "fsddelay.org";
 export const SITE_DESCRIPTION =
-	"Europe's FSD approval clock. Eight of 27 EU countries have moved. A vote may come 3 October.";
+	"Europe's FSD approval clock. Nine of 27 EU countries have moved. A vote may come 3 October.";
 
 export const TODAY_ISO = "2026-10-16";
 export const DUTCH_APPROVAL_DATE = "2026-04-10";
@@ -55,7 +55,7 @@ export const REPORTED_TCMV_NEXT_VOTE_DATE = "2026-10-03";
 
 export const EU_ROAD_DEATHS_2025 = 19_400;
 export const EU_MEMBER_STATES = 27;
-export const APPROVED_MEMBER_STATES = 8;
+export const APPROVED_MEMBER_STATES = 9;
 
 export const defaultScenario: Scenario = {
 	teslaShareWithinBev: 20,
@@ -128,7 +128,7 @@ export const countries: CountryRecord[] = [
 	{ code: "EL", name: "Greece", fatalities2023: 646, fatalitiesPerMillion2023: 62, bevFleetShare2024: 0.298, population2025: 10372335, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "ES", name: "Spain", fatalities2023: 1806, fatalitiesPerMillion2023: 38, bevFleetShare2024: 0.78, population2025: 49128297, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "FR", name: "France", fatalities2023: 3154, fatalitiesPerMillion2023: 46, bevFleetShare2024: 2.849, population2025: 68882600, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
-	{ code: "HR", name: "Croatia", fatalities2023: 274, fatalitiesPerMillion2023: 71, bevFleetShare2024: 0.505, population2025: 3874350, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
+	{ code: "HR", name: "Croatia", fatalities2023: 274, fatalitiesPerMillion2023: 71, bevFleetShare2024: 0.505, population2025: 3874350, approval: "national-approval", leadBody: "Croatian national approval" },
 	{ code: "IT", name: "Italy", fatalities2023: 3039, fatalitiesPerMillion2023: 52, bevFleetShare2024: 0.676, population2025: 58943464, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "CY", name: "Cyprus", fatalities2023: 34, fatalitiesPerMillion2023: 36, bevFleetShare2024: 0.512, population2025: 982966, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "LV", name: "Latvia", fatalities2023: 138, fatalitiesPerMillion2023: 73, bevFleetShare2024: 1.172, population2025: 1860565, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
@@ -142,13 +142,13 @@ export const countries: CountryRecord[] = [
 	{ code: "PT", name: "Portugal", fatalities2023: 642, fatalitiesPerMillion2023: 61, bevFleetShare2024: 2.694, population2025: 10749635, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "RO", name: "Romania", fatalities2023: 1545, fatalitiesPerMillion2023: 81, bevFleetShare2024: 0.587, population2025: 19043151, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "SI", name: "Slovenia", fatalities2023: 82, fatalitiesPerMillion2023: 39, bevFleetShare2024: 1.355, population2025: 2130850, approval: "national-approval", leadBody: "AVP / Slovenian Traffic Safety Agency" },
-	{ code: "SK", name: "Slovakia", fatalities2023: 266, fatalitiesPerMillion2023: 49, bevFleetShare2024: 0.537, population2025: 5419451, approval: "national-approval", leadBody: "Slovak national approval" },
+	{ code: "SK", name: "Slovakia", fatalities2023: 266, fatalitiesPerMillion2023: 49, bevFleetShare2024: 0.537, population2025: 5419451, approval: "national-approval", leadBody: "Slovak Ministry of Transport" },
 	{ code: "FI", name: "Finland", fatalities2023: 185, fatalitiesPerMillion2023: 33, bevFleetShare2024: 3.236, population2025: 5635971, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 	{ code: "SE", name: "Sweden", fatalities2023: 229, fatalitiesPerMillion2023: 22, bevFleetShare2024: 7.198, population2025: 10587710, approval: "pending-eu-vote", leadBody: "National government vote in EU committee" },
 ];
 
 export const institutionTrack = [
-	{ stage: "National approvals", title: "8 of 27 have moved", body: "Netherlands, Lithuania, Estonia, Denmark, Belgium, Slovenia, Czechia, Slovakia." },
+	{ stage: "National approvals", title: "9 of 27 have moved", body: "Netherlands, Lithuania, Estonia, Denmark, Belgium, Slovenia, Czechia, Croatia, Slovakia." },
 	{ stage: "European Commission", title: "EU-wide use is still blocked", body: "RDW says the file still needs a Commission step." },
 	{ stage: "Member states", title: "A vote may come 3 October", body: "EU-wide validity needs a majority vote in committee. That vote may happen 3 October." },
 ];
@@ -163,8 +163,9 @@ export const timeline = [
 	{ date: "10 Jun 2026", title: "Belgium", body: "Flemish Mobility Minister Annick De Ridder signed national approval." },
 	{ date: "7 Sep 2026", title: "Slovenia", body: "Sixth country. AVP recognized the Dutch approval." },
 	{ date: "21 Sep 2026", title: "Czechia", body: "Seventh country. Czech Ministry of Transport recognized the Dutch approval." },
+	{ date: "29 Sep 2026", title: "Croatia", body: "Eighth country. Croatia recognized the Dutch approval; Tesla announced rollout soon." },
 	{ date: "3 Oct 2026", title: "Possible EU vote", body: "A member-state vote may come 3 October. Until then, EU-wide use stays blocked." },
-	{ date: "16 Oct 2026", title: "Slovakia", body: "Eighth country. Tesla Europe announced approval; rollout begins soon." },
+	{ date: "16 Oct 2026", title: "Slovakia", body: "Ninth country. Slovak Ministry of Transport recognized the Dutch approval; rollout begins soon." },
 ];
 
 export const methodology = [
@@ -191,6 +192,8 @@ export const sources = [
 	{ label: "Reuters: Slovenia clears Tesla FSD driver assistance", href: "https://www.reuters.com/business/slovenia-clears-teslas-fsd-driver-assistance-ahead-eu-vote-2026-09-08/", note: "Reuters reported Tesla's 7 September 2026 announcement and said Slovenia's Traffic Safety Agency confirmed by email that it had recognized the temporary type approval." },
 	{ label: "GOV.SI: Minister Vrtovec tests FSD after Slovenian approval", href: "https://www.gov.si/novice/2026-09-15-minister-vrtovec-preizkusil-fsd-slovenija-med-vodilnimi-v-evropi-pri-napredni-mobilnosti/", note: "Slovenia's government said the country is the sixth in Europe to allow FSD Supervised on its roads." },
 	{ label: "Czech Ministry of Transport: Czechia recognizes the RDW provisional approval", href: "https://md.gov.cz/Media/Media-a-tiskove-zpravy/Ceska-republika-uznala-prozatimni-schvaleni-system", note: "On 21 September 2026, the ministry said it recognized the Dutch RDW provisional approval under Article 39, making FSD Supervised usable in Czechia under those conditions." },
+	{ label: "Not a Tesla App: Tesla wins approval to launch FSD (Supervised) in Croatia", href: "https://www.notateslaapp.com/news/4747/tesla-wins-approval-to-launch-fsd-supervised-in-croatia", note: "Reported in late September 2026 that Croatia recognized the Dutch RDW provisional approval, making it the eighth European country to allow FSD Supervised." },
+	{ label: "Drive Tesla: Slovakia officially approves Tesla FSD", href: "https://driveteslacanada.ca/news/tesla-fsd-slovakia-officially-approved/", note: "On 16 October 2026, Slovakia's Ministry of Transport recognized the Dutch RDW approval of FSD Supervised." },
 	{ label: "Tesla Europe on X: Now approved in Slovakia", href: "https://x.com/teslaeurope", note: "On 16 October 2026, Tesla Europe posted that FSD Supervised is now approved in Slovakia and that rollout begins soon." },
 	{ label: "EU sets no Tesla FSD vote for May 5, Dutch to brief in 20-minute slot", href: "https://eletric-vehicles.com/tesla/eu-sets-no-tesla-fsd-vote-for-may-5-dutch-to-brief-in-20-minute-slot/", note: "Secondary reporting published 17 April 2026, citing a European Commission draft agenda screenshot, says 5 May 2026 is an Article 39 update slot and that the next scheduled TCMV meeting is 30 June 2026." },
 	{ label: "European Commission: EU road deaths drop by 3% in 2025", href: "https://transport.ec.europa.eu/news-events/news/eu-road-deaths-drop-3-2025-2026-03-24_en", note: "The Commission reported around 19,400 road deaths across the EU in 2025." },
