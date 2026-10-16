@@ -42,7 +42,7 @@ export type CountryOpportunity = CountryRecord & {
 export const SITE_TITLE = "FSD Delay Clock";
 export const SITE_DOMAIN = "fsddelay.org";
 export const SITE_DESCRIPTION =
-	"Europe's FSD approval clock. Nine of 27 EU countries have moved. A vote may come 3 October.";
+	"Europe's FSD approval clock. Nine of 27 EU countries have moved. A vote may come 1 December.";
 
 export const TODAY_ISO = "2026-10-16";
 export const DUTCH_APPROVAL_DATE = "2026-04-10";
@@ -51,7 +51,8 @@ export const DUTCH_APPROVAL_MOMENT = "2026-04-10T00:00:00Z";
 export const PROCESS_STARTED_MOMENT = "2024-10-01T00:00:00Z";
 export const REPORTED_TCMV_PRESENTATION_DATE = "2026-05-05";
 export const REPORTED_TCMV_EARLIEST_VOTE_DATE = "2026-06-30";
-export const REPORTED_TCMV_NEXT_VOTE_DATE = "2026-10-03";
+export const REPORTED_TCMV_OCTOBER_MEETING_DATE = "2026-10-06";
+export const REPORTED_TCMV_NEXT_VOTE_DATE = "2026-12-01";
 
 export const EU_ROAD_DEATHS_2025 = 19_400;
 export const EU_MEMBER_STATES = 27;
@@ -150,7 +151,7 @@ export const countries: CountryRecord[] = [
 export const institutionTrack = [
 	{ stage: "National approvals", title: "9 of 27 have moved", body: "Netherlands, Lithuania, Estonia, Denmark, Belgium, Slovenia, Czechia, Croatia, Slovakia." },
 	{ stage: "European Commission", title: "EU-wide use is still blocked", body: "RDW says the file still needs a Commission step." },
-	{ stage: "Member states", title: "A vote may come 3 October", body: "EU-wide validity needs a majority vote in committee. That vote may happen 3 October." },
+	{ stage: "Member states", title: "A vote may come 1 December", body: "EU-wide validity needs a majority vote in committee. 6 October was talks only. Next window: 1 December." },
 ];
 
 export const timeline = [
@@ -164,8 +165,9 @@ export const timeline = [
 	{ date: "7 Sep 2026", title: "Slovenia", body: "Sixth country. AVP recognized the Dutch approval." },
 	{ date: "21 Sep 2026", title: "Czechia", body: "Seventh country. Czech Ministry of Transport recognized the Dutch approval." },
 	{ date: "29 Sep 2026", title: "Croatia", body: "Eighth country. Croatia recognized the Dutch approval; Tesla announced rollout soon." },
-	{ date: "3 Oct 2026", title: "Possible EU vote", body: "A member-state vote may come 3 October. Until then, EU-wide use stays blocked." },
+	{ date: "6 Oct 2026", title: "No EU vote", body: "TCMV agenda gave FSD 25 minutes of discussion. No ballot." },
 	{ date: "16 Oct 2026", title: "Slovakia", body: "Ninth country. Slovak Ministry of Transport recognized the Dutch approval; rollout begins soon." },
+	{ date: "1 Dec 2026", title: "Possible EU vote", body: "Next and last TCMV meeting of 2026. Until then, EU-wide use stays blocked." },
 ];
 
 export const methodology = [
@@ -192,6 +194,7 @@ export const sources = [
 	{ label: "Reuters: Slovenia clears Tesla FSD driver assistance", href: "https://www.reuters.com/business/slovenia-clears-teslas-fsd-driver-assistance-ahead-eu-vote-2026-09-08/", note: "Reuters reported Tesla's 7 September 2026 announcement and said Slovenia's Traffic Safety Agency confirmed by email that it had recognized the temporary type approval." },
 	{ label: "GOV.SI: Minister Vrtovec tests FSD after Slovenian approval", href: "https://www.gov.si/novice/2026-09-15-minister-vrtovec-preizkusil-fsd-slovenija-med-vodilnimi-v-evropi-pri-napredni-mobilnosti/", note: "Slovenia's government said the country is the sixth in Europe to allow FSD Supervised on its roads." },
 	{ label: "Czech Ministry of Transport: Czechia recognizes the RDW provisional approval", href: "https://md.gov.cz/Media/Media-a-tiskove-zpravy/Ceska-republika-uznala-prozatimni-schvaleni-system", note: "On 21 September 2026, the ministry said it recognized the Dutch RDW provisional approval under Article 39, making FSD Supervised usable in Czechia under those conditions." },
+	{ label: "Tesla North: EU FSD vote pushed back as 6 October agenda shows talks only", href: "https://teslanorth.com/2026/09/25/tesla-eu-supervised-fsd-vote-delay/", note: "The 119th TCMV agenda for 6 October 2026 listed FSD Supervised for 25 minutes of discussion only, pushing a potential vote to the 1 December 2026 meeting." },
 	{ label: "Not a Tesla App: Tesla wins approval to launch FSD (Supervised) in Croatia", href: "https://www.notateslaapp.com/news/4747/tesla-wins-approval-to-launch-fsd-supervised-in-croatia", note: "Reported in late September 2026 that Croatia recognized the Dutch RDW provisional approval, making it the eighth European country to allow FSD Supervised." },
 	{ label: "Drive Tesla: Slovakia officially approves Tesla FSD", href: "https://driveteslacanada.ca/news/tesla-fsd-slovakia-officially-approved/", note: "On 16 October 2026, Slovakia's Ministry of Transport recognized the Dutch RDW approval of FSD Supervised." },
 	{ label: "Tesla Europe on X: Now approved in Slovakia", href: "https://x.com/teslaeurope", note: "On 16 October 2026, Tesla Europe posted that FSD Supervised is now approved in Slovakia and that rollout begins soon." },

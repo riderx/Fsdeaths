@@ -9,6 +9,7 @@ import {
 	PROCESS_STARTED_MOMENT,
 	REPORTED_TCMV_EARLIEST_VOTE_DATE,
 	REPORTED_TCMV_NEXT_VOTE_DATE,
+	REPORTED_TCMV_OCTOBER_MEETING_DATE,
 	SITE_DOMAIN,
 	SITE_DESCRIPTION,
 	SITE_TITLE,
@@ -41,9 +42,14 @@ const juneVoteDelayDays = daysBetween(
 	DUTCH_APPROVAL_DATE,
 	REPORTED_TCMV_EARLIEST_VOTE_DATE,
 );
+const octoberVoteDelayDays = daysBetween(
+	DUTCH_APPROVAL_DATE,
+	REPORTED_TCMV_OCTOBER_MEETING_DATE,
+);
 const reportedVoteDelayDays = daysBetween(
 	DUTCH_APPROVAL_DATE,
 	REPORTED_TCMV_NEXT_VOTE_DATE,
+	REPORTED_TCMV_OCTOBER_MEETING_DATE,
 );
 const initialReportedVoteDelay = initialDaily * reportedVoteDelayDays;
 const initialScope = getFleetScope(defaultScenario.approvalScopeKey);
@@ -115,7 +121,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					</div>
 					<p class="status__meta">
 						<span>{pendingMemberStates} still waiting</span>
-						<span>Vote may come 3 October</span>
+						<span>Vote may come 1 December</span>
 					</p>
 				</div>
 				<ol class="hero__facts">
@@ -491,11 +497,11 @@ const renderStatusClass = (row: CountryOpportunity) =>
 		<section class="panel">
 			<div class="section-head">
 				<p class="eyebrow">Committee</p>
-				<h2>A vote may come 3 October</h2>
+				<h2>A vote may come 1 December</h2>
 				<p>
 					Nine countries already moved.
 					EU-wide use still needs a member-state vote.
-					That vote may happen 3 October.
+					6 October was talks only. Next window: 1 December.
 				</p>
 			</div>
 
@@ -506,15 +512,15 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					<p>RDW issued national validity after 18 months of testing.</p>
 				</article>
 				<article class="committee-card">
-					<span class="committee-card__label">30 Jun 2026</span>
+					<span class="committee-card__label">30 Jun + 6 Oct 2026</span>
 					<strong class="committee-card__value">No vote</strong>
 					<p>
-						{formatWhole.format(juneVoteDelayDays)} days after Dutch approval,
-						the committee still did not vote.
+						{formatWhole.format(juneVoteDelayDays)} and {formatWhole.format(octoberVoteDelayDays)}
+						days after Dutch approval, the committee met and did not vote.
 					</p>
 				</article>
 				<article class="committee-card">
-					<span class="committee-card__label">3 Oct 2026</span>
+					<span class="committee-card__label">1 Dec 2026</span>
 					<strong class="committee-card__value">Possible vote</strong>
 					<p>
 						{formatWhole.format(reportedVoteDelayDays)} days after Dutch approval.
@@ -522,13 +528,13 @@ const renderStatusClass = (row: CountryOpportunity) =>
 					</p>
 				</article>
 				<article class="committee-card committee-card--hot">
-					<span class="committee-card__label">Frozen by 3 Oct</span>
+					<span class="committee-card__label">Frozen by 1 Dec</span>
 					<strong class="committee-card__value" id="committee-frozen">
 						{formatLives.format(initialReportedVoteDelay)}
 						<span class="unit">lives</span>
 					</strong>
 					<p>
-						Upside left on the table from 10 April to 3 October under
+						Upside left on the table from 10 April to 1 December under
 						<span id="committee-scope">{initialScope.label}</span>.
 					</p>
 				</article>
@@ -537,7 +543,7 @@ const renderStatusClass = (row: CountryOpportunity) =>
 			<p class="footnote">
 				RDW confirms the Commission step and the member-state vote.
 				It does not publish the committee date.
-				3 October is the next window in play. It can slip.
+				1 December is the next window in play. It can slip.
 			</p>
 		</section>
 
